@@ -1,0 +1,27 @@
+package com.team404.visualwith.controller;
+
+import com.team404.visualwith.dto.UserRegisterRequestDto;
+import com.team404.visualwith.dto.UserResponseDto;
+import com.team404.visualwith.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserResponseDto> register(@RequestBody UserRegisterRequestDto dto) {
+        UserResponseDto response = userService.register(dto);
+        return ResponseEntity.ok(response);
+    }
+}
