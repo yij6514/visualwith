@@ -1,0 +1,14 @@
+package com.team404.visualwith.dto;
+
+public class LoginResponse {
+    private String userId;
+    private String token;
+
+    public LoginResponse(String userId, String token) {
+        this.userId = userId;
+        this.token = token;
+    }
+
+    public String getUserId() {return userId;}
+    public String getToken() {return token;}
+}
