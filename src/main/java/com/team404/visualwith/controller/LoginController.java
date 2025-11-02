@@ -1,6 +1,7 @@
 package com.team404.visualwith.controller;
 
 import com.team404.visualwith.dto.LoginRequest;
+import com.team404.visualwith.dto.LoginResponse;
 import com.team404.visualwith.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +19,12 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         try{
-            authService.login(loginRequest);
-            return ResponseEntity.ok("로그인 성공!");
+            LoginResponse response = authService.login(loginRequest);
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(new LoginResponse(null, null, e.getMessage()));
         }
     }
 }
