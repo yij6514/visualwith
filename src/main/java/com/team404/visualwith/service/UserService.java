@@ -7,6 +7,9 @@ import com.team404.visualwith.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -27,5 +30,14 @@ public class UserService {
         User saved = userRepository.save(user);
 
         return new UserResponseDto(saved);
+    }
+
+    public Map<String, Boolean> checkid(Map<String, String> user) {
+        String userId = user.get("userId");
+        boolean exists = userRepository.existsByUserId(userId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("available", !exists);
+
+        return response;
     }
 }

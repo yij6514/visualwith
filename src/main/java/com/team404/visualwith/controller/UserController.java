@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -22,6 +24,12 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> register(@RequestBody UserRegisterRequestDto dto) {
         UserResponseDto response = userService.register(dto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/checkid")
+    public ResponseEntity<Map<String, Boolean>> checkid(@RequestBody Map<String, String> body) {
+        Map<String, Boolean> response = userService.checkid(body);
         return ResponseEntity.ok(response);
     }
 }
