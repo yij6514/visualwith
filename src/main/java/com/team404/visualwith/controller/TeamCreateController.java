@@ -1,0 +1,18 @@
+package com.team404.visualwith.controller;
+
+import com.team404.visualwith.dto.TeamRequest;
+import com.team404.visualwith.dto.TeamResponse;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+public class TeamCreateController {
+    @PostMapping("/createteam")
+    public ResponseEntity<TeamResponse> createTeam(@RequestBody TeamRequest teamRequest) {
+        return null;
+    }
+}
