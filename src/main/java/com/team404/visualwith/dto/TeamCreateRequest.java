@@ -1,10 +1,10 @@
 package com.team404.visualwith.dto;
 
-public class TeamRequest {
+public class TeamCreateRequest {
     private String createorId;
     private String teamName;
 
-    public TeamRequest() {}
+    public TeamCreateRequest() {}
 
     public String getCreateorId() {return createorId;}
     public String getTeamName() {return teamName;}

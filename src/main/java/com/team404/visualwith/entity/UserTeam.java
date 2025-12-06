@@ -1,13 +1,27 @@
 package com.team404.visualwith.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_teams")
 public class UserTeam {
-    private String userId;
-    private String teamId;
-    private String role;
+    @Embedded
+    private UserTeamId id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="role", nullable = false)
+    private UserTeamRole role;
+
+    public UserTeam() {}
+
+    public UserTeam(UserTeamId id, UserTeamRole role) {
+        this.id = id;
+        this.role = role;
+    }
+
+    public UserTeamId getId() {return id;}
+    public UserTeamRole getRole() {return role;}
+
+    public void setId(UserTeamId id) {this.id = id;}
+    public void setRole(UserTeamRole role) {this.role = role;}
 }
