@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class TeamCreateController {
+public class TeamController {
     private final TeamService teamService;
 
-    public TeamCreateController(TeamService teamService) {
+    public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
 
@@ -21,5 +21,14 @@ public class TeamCreateController {
             @RequestHeader("X-USER-ID") String userId) {
         TeamCreateResponse response = teamService.createTeam(teamRequest.getTeamName(), userId);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{teamId}")
+    public ResponseEntity<?> deleteTeam(
+            @RequestHeader("X-USER-ID") String userId,
+            @PathVariable String teamId
+    ) {
+        teamService.deleteTeam(teamId, userId);
+        return ResponseEntity.ok("팀 삭제 완료");
     }
 }
