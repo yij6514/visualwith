@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user_teams")
 public class UserTeam {
-    @Embedded
+    @EmbeddedId
     private UserTeamId id;
 
     @Enumerated(EnumType.STRING)
