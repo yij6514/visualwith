@@ -14,7 +14,7 @@ public class TeamController {
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
-
+    
     @PostMapping("/createteam")
     public ResponseEntity<TeamCreateResponse> createTeam(
             @RequestBody TeamCreateRequest teamRequest,
