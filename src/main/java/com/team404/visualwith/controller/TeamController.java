@@ -26,8 +26,7 @@ public class TeamController {
     @DeleteMapping("/teams/{teamId}")
     public ResponseEntity<?> deleteTeam(
             @RequestHeader("X-USER-ID") String userId,
-            @PathVariable String teamId
-    ) {
+            @PathVariable String teamId) {
         teamService.deleteTeam(teamId, userId);
         return ResponseEntity.ok("팀 삭제 완료");
     }

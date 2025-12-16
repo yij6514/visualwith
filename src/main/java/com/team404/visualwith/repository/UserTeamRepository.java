@@ -12,6 +12,4 @@ import java.util.Optional;
 public interface UserTeamRepository extends JpaRepository<UserTeam, UserTeamId> {
     @Transactional
     void deleteByIdTeamId(String teamId);
-
-    //Optional<UserTeam> findByUserAndTeamId(UserTeamId userTeamId);
 }

@@ -51,20 +51,15 @@ public class TeamService {
         );
     }
 
-    public void deleteTeam(String teamId, String requesterId) {
-
+    public void deleteTeam(String teamId, String adminUserId) {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new RuntimeException("팀을 찾을 수 없습니다."));
 
-        // 생성자인지 검증
-        if (!team.getCreateId().equals(requesterId)) {
-            throw new RuntimeException("팀 생성자만 팀을 삭제할 수 있습니다.");
+        if (!team.getCreateId().equals(adminUserId)) {
+            throw new RuntimeException("팀 관리자만 팀을 삭제할 수 있습니다.");
         }
 
-        // user_team 관계 먼저 삭제
         userTeamRepository.deleteByIdTeamId(teamId);
-
-        // 팀 삭제
         teamRepository.delete(team);
     }
 }
