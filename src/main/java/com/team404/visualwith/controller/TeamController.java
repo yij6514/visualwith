@@ -23,7 +23,7 @@ public class TeamController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{teamId}")
+    @DeleteMapping("/teams/{teamId}")
     public ResponseEntity<?> deleteTeam(
             @RequestHeader("X-USER-ID") String userId,
             @PathVariable String teamId
