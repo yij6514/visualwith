@@ -32,7 +32,7 @@ public class UserService {
         return new UserResponseDto(saved);
     }
 
-    public Map<String, Boolean> checkid(Map<String, String> user) {
+    public Map<String, Boolean> checkId(Map<String, String> user) {
         String userId = user.get("userId");
         boolean exists = userRepository.existsByUserId(userId);
         Map<String, Boolean> response = new HashMap<>();

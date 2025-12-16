@@ -24,7 +24,12 @@ public class LoginController {
             LoginResponse response = authService.login(loginRequest);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(new LoginResponse(null, null, null, null, e.getMessage()));
+            return ResponseEntity.badRequest().body(new LoginResponse(
+                    null,
+                    null,
+                    null,
+                    null,
+                    e.getMessage()));
         }
     }
 }

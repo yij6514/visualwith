@@ -14,7 +14,10 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+    public AuthService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -29,6 +32,11 @@ public class AuthService {
         }
 
         String token = jwtTokenProvider.createToken(user.getUserId());
-        return new LoginResponse(user.getUserId(), user.getName(), user.getEmail(), token,"ok");
+        return new LoginResponse(
+                user.getUserId(),
+                user.getName(),
+                user.getEmail(),
+                token,
+                "ok");
     }
 }

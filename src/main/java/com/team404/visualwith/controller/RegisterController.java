@@ -29,7 +29,7 @@ public class RegisterController {
 
     @PostMapping("/checkid")
     public ResponseEntity<Map<String, Boolean>> checkid(@RequestBody Map<String, String> body) {
-        Map<String, Boolean> response = userService.checkid(body);
+        Map<String, Boolean> response = userService.checkId(body);
         return ResponseEntity.ok(response);
     }
 }
