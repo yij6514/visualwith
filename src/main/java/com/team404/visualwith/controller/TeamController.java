@@ -3,8 +3,11 @@ package com.team404.visualwith.controller;
 import com.team404.visualwith.dto.TeamCreateRequest;
 import com.team404.visualwith.dto.TeamCreateResponse;
 import com.team404.visualwith.service.TeamService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -27,7 +30,15 @@ public class TeamController {
     public ResponseEntity<?> deleteTeam(
             @RequestHeader("X-USER-ID") String userId,
             @PathVariable String teamId) {
-        teamService.deleteTeam(teamId, userId);
-        return ResponseEntity.ok("팀 삭제 완료");
+        try{
+            teamService.deleteTeam(teamId, userId);
+            return ResponseEntity.ok("팀 삭제 완료");
+        } catch(SecurityException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("message", e.getMessage()));
+        }
     }
 }

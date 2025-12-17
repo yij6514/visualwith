@@ -3,6 +3,7 @@ package com.team404.visualwith.controller;
 import com.team404.visualwith.dto.UserRegisterRequestDto;
 import com.team404.visualwith.dto.UserResponseDto;
 import com.team404.visualwith.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +23,15 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDto> register(@RequestBody UserRegisterRequestDto dto) {
-        UserResponseDto response = userService.register(dto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> register(@RequestBody UserRegisterRequestDto dto) {
+        try{
+            UserResponseDto response = userService.register(dto);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", e.getMessage()));
+        }
+
     }
 
     @PostMapping("/checkid")

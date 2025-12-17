@@ -53,10 +53,10 @@ public class TeamService {
 
     public void deleteTeam(String teamId, String adminUserId) {
         Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new RuntimeException("팀을 찾을 수 없습니다."));
+                .orElseThrow(() -> new SecurityException("팀을 찾을 수 없습니다."));
 
         if (!team.getCreateId().equals(adminUserId)) {
-            throw new RuntimeException("팀 관리자만 팀을 삭제할 수 있습니다.");
+            throw new IllegalArgumentException("팀 관리자만 팀을 삭제할 수 있습니다.");
         }
 
         userTeamRepository.deleteByIdTeamId(teamId);
