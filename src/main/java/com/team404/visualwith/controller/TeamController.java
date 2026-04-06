@@ -32,7 +32,7 @@ public class TeamController {
             @PathVariable String teamId) {
         try{
             teamService.deleteTeam(teamId, userId);
-            return ResponseEntity.ok("팀 삭제 완료");
+            return ResponseEntity.ok(Map.of("message","팀 삭제 완료"));
         } catch(SecurityException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
