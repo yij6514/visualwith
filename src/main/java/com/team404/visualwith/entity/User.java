@@ -34,14 +34,14 @@ public class User {
         this.name = name;
     }
 
-    //get method
+    //Getter
     public Long getId() {return id;}
     public String getUserId() {return userId;}
     public String getEmail() {return email;}
     public String getPassword() {return password;}
     public String getName() {return name;}
 
-    //set method
+    //Setter
     //id는 시스템에서 지정이기 때문에 setid는 없음
     public void setUserId(String userId) {this.userId = userId;}
     public void setEmail(String email) {this.email = email;}
