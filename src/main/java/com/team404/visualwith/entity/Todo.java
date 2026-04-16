@@ -7,14 +7,20 @@ import jakarta.persistence.*;
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     private String userId;
+
+    @Column(nullable = false)
     private String teamId;
 
+    @Column(nullable = false)
     private String title;
     private String content;
 
+    @Column(nullable = false)
     private Boolean completed;
 
     private String createdDate;
