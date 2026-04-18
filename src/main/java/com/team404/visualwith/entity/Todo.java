@@ -5,13 +5,16 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="todos")
 public class Todo {
+
+    // 할일목록 ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false)
-    private String userId;
+    private String creatorId; // 작성자 ID
+    private String modifierId; // 수정자 ID
 
     @Column(nullable = false)
     private String teamId;
@@ -34,7 +37,7 @@ public class Todo {
     public Todo(Long id, String title, String content,
                 String createdDate, String createdTime,
                 String completeDate, String completeTime,
-                Boolean completed, String userId, String teamId) {
+                Boolean completed, String creatorId, String modifier, String teamId) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -43,7 +46,8 @@ public class Todo {
         this.completeDate = completeDate;
         this.completeTime = completeTime;
         this.completed = completed;
-        this.userId = userId;
+        this.creatorId = creatorId;
+        this.modifierId = modifier;
         this.teamId = teamId;
     }
 
@@ -51,7 +55,8 @@ public class Todo {
 
     public Long getId() {return id;}
 
-    public String getUserId() {return userId;}
+    public String getcreatorId() {return creatorId;}
+    public String getModifierId() {return modifierId;}
     public String getTeamId() {return teamId;}
 
     public String getTitle() {return title;}
@@ -67,7 +72,8 @@ public class Todo {
 
     //setter
 
-    public void setUserId(String userId) {this.userId = userId;}
+    public void setCreatorId(String creatorId) {this.creatorId = creatorId;}
+    public void setModifierId(String modifierId) {this.modifierId = modifierId;}
     public void setTeamId(String teamId) {this.teamId = teamId;}
 
     public void setTitle(String title) {this.title = title;}

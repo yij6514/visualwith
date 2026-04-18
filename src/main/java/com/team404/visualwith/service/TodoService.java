@@ -20,7 +20,7 @@ public class TodoService {
         return null;
     }
 
-    public List<TodoGetResponse> getTodo(TodoGetRequest todoGetRequest) {
+    public List<TodoGetResponse> getTodo(String teamId) {
 
         return null;
     }
