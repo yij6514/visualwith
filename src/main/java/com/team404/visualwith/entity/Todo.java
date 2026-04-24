@@ -55,7 +55,7 @@ public class Todo {
 
     public Long getId() {return id;}
 
-    public String getcreatorId() {return creatorId;}
+    public String getCreatorId() {return creatorId;}
     public String getModifierId() {return modifierId;}
     public String getTeamId() {return teamId;}
 

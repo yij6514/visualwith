@@ -1,11 +1,25 @@
 package com.team404.visualwith.dto.todo;
 
+import com.team404.visualwith.entity.Todo;
+
 public class TodoGetResponse {
     private String userId;
     private String title;
     private String content;
 
     public TodoGetResponse() {}
+
+    public TodoGetResponse(String userId, String title, String content) {
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+    }
+
+    public TodoGetResponse(Todo todo) {
+        this.userId = todo.getCreatorId();
+        this.title = todo.getTitle();
+        this.content = todo.getContent();
+    }
 
     //Getter
     public String getUserId() {return userId;}

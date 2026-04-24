@@ -1,7 +1,6 @@
 package com.team404.visualwith.controller;
 
-import com.team404.visualwith.dto.todo.TodoAddRequest;
-import com.team404.visualwith.dto.todo.TodoGetResponse;
+import com.team404.visualwith.dto.todo.*;
 import com.team404.visualwith.service.TodoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +19,32 @@ public class TodoController {
     // read
     @GetMapping("/{teamId}")
     public List<TodoGetResponse> getTodoList(@PathVariable String teamId) {
-        todoService.getTodo(teamId);
-        return null;
+        return todoService.getTodo(teamId);
     }
 
     // create
     @PostMapping
     public ResponseEntity<?> postTodo(@RequestBody TodoAddRequest todoAddRequest) {
-
+        todoService.createTodo(todoAddRequest);
         return null;
     }
 
     // update
+    @PutMapping
+    public ResponseEntity<?> updateTodo(@RequestBody TodoUpdateRequest todoUpdateRequest){
+        return null;
+    }
 
     // complete
+    @PutMapping
+    public ResponseEntity<?> completeTodo(@RequestBody TodoCompleteRequest todoCompleteRequest){
+        return null;
+    }
 
     //delete
+    @DeleteMapping("/{teamId}")
+    public ResponseEntity<?> deleteTodo(@RequestBody TodoDeleteRequest todoDeleteRequest) {
+        todoService.deleteTodo(todoDeleteRequest);
+        return null;
+    }
 }
