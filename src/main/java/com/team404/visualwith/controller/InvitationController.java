@@ -24,7 +24,8 @@ public class InvitationController {
             @RequestHeader("X-USER-ID") String adminUserId) {
         try{
             userTeamService.addMember(teamId, adminUserId, request.getUserId());
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(Map.of("message", "팀 초대 완료"));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
