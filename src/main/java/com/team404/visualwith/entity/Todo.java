@@ -1,5 +1,6 @@
 package com.team404.visualwith.entity;
 
+import com.team404.visualwith.dto.todo.TodoAddRequest;
 import jakarta.persistence.*;
 
 @Entity
@@ -51,8 +52,15 @@ public class Todo {
         this.teamId = teamId;
     }
 
+    public Todo(TodoAddRequest todoAddRequest) {
+        this.title = todoAddRequest.getTitle();
+        this.content = todoAddRequest.getContent();
+        this.createdDate = todoAddRequest.getCreatedDate();
+        this.createdTime = todoAddRequest.getCreatedTime();
+        this.creatorId = todoAddRequest.getUserId();
+        this.teamId = todoAddRequest.getTeamid();
+    }
     //getter
-
     public Long getId() {return id;}
 
     public String getCreatorId() {return creatorId;}

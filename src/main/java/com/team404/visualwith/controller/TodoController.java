@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/todo")
@@ -31,22 +32,41 @@ public class TodoController {
     }
 
     // update
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<?> updateTodo(@RequestBody TodoUpdateRequest todoUpdateRequest){
-        todoService.updateTodo(todoUpdateRequest);
-        return null;
+        try {
+            todoService.updateTodo(todoUpdateRequest);
+        }
+        catch(RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // complete
-    @PutMapping
+    @PutMapping("/complete")
     public ResponseEntity<?> completeTodo(@RequestBody TodoCompleteRequest todoCompleteRequest){
-        return null;
+        try{
+            todoService.completeTodo(todoCompleteRequest);
+        }
+        catch(RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     //delete
     @DeleteMapping("/{teamId}")
     public ResponseEntity<?> deleteTodo(@RequestBody TodoDeleteRequest todoDeleteRequest) {
-        todoService.deleteTodo(todoDeleteRequest);
-        return null;
+        try{
+            todoService.deleteTodo(todoDeleteRequest);
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
