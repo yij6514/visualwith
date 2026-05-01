@@ -6,6 +6,8 @@
 
 ## 1. 회원가입
 
+<details>
+
 ### 1-1. 회원가입 요청
 
 - **URL**: `/api/register`
@@ -63,6 +65,8 @@
   "available": false
 }
 ```
+
+</details>
 
 ---
 
