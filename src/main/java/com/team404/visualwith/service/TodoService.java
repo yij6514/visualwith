@@ -22,7 +22,7 @@ public class TodoService {
     public TodoAddResponse createTodo(TodoAddRequest todoAddRequest) {
         Todo todo = new Todo(todoAddRequest);
         todoRepository.save(todo);
-        return new TodoAddResponse(todo.getId().toString());
+        return new TodoAddResponse(todo.getId());
     }
 
     public List<TodoGetResponse> getTodo(String teamId) {

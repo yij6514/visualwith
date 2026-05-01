@@ -3,8 +3,8 @@ package com.team404.visualwith.dto.todo;
 import com.team404.visualwith.entity.UserTeamRole;
 
 public class TodoUpdateRequest {
-    private String teamId;
     private String id;
+    private String teamId;
     private String userId;
     private UserTeamRole userTeamRole;
     private String title;

@@ -1,6 +1,7 @@
 package com.team404.visualwith.controller;
 
 import com.team404.visualwith.dto.todo.*;
+import com.team404.visualwith.entity.Todo;
 import com.team404.visualwith.service.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class TodoController {
     // create
     @PostMapping
     public ResponseEntity<?> postTodo(@RequestBody TodoAddRequest todoAddRequest) {
-        todoService.createTodo(todoAddRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+         TodoAddResponse result =  todoService.createTodo(todoAddRequest);
+        return ResponseEntity.ok(result);
     }
 
     // update
