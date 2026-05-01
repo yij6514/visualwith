@@ -58,7 +58,8 @@ public class Todo {
         this.createdDate = todoAddRequest.getCreatedDate();
         this.createdTime = todoAddRequest.getCreatedTime();
         this.creatorId = todoAddRequest.getUserId();
-        this.teamId = todoAddRequest.getTeamid();
+        this.teamId = todoAddRequest.getTeamId();
+        this.completed = false;
     }
     //getter
     public Long getId() {return id;}

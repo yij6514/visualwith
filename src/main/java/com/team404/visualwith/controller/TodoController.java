@@ -58,7 +58,7 @@ public class TodoController {
     }
 
     //delete
-    @DeleteMapping("/{teamId}")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteTodo(@RequestBody TodoDeleteRequest todoDeleteRequest) {
         try{
             todoService.deleteTodo(todoDeleteRequest);

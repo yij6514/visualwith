@@ -29,10 +29,7 @@ public class TodoService {
         List<Todo> todoList = todoRepository.findByTeamId(teamId);
         List<TodoGetResponse> dtoList = new ArrayList<>();
         for(Todo todo : todoList) {
-            dtoList.add(new TodoGetResponse(
-                    todo.getCreatorId(),
-                    todo.getTitle(),
-                    todo.getContent()));
+            dtoList.add(new TodoGetResponse(todo));
         }
         return dtoList;
     }

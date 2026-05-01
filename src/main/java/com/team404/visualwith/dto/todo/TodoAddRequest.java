@@ -11,7 +11,7 @@ public class TodoAddRequest {
     public TodoAddRequest() {}
 
     //Getter
-    public String getTeamid() {return teamid;}
+    public String getTeamId() {return teamid;}
     public String getUserId() {return userId;}
 
     public String getTitle() {return title;}
@@ -21,7 +21,7 @@ public class TodoAddRequest {
     public String getCreatedTime() {return createdTime;}
 
     //Setter
-    public void setTeamid(String teamid) {this.teamid = teamid;}
+    public void setTeamId(String teamid) {this.teamid = teamid;}
     public void setUserId(String userId) {this.userId = userId;}
 
     public void setTitle(String title) {this.title = title;}
