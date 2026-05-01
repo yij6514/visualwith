@@ -2,8 +2,6 @@ package com.team404.visualwith.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Random;
-
 @Entity
 @Table(name="teams")
 public class Team {
