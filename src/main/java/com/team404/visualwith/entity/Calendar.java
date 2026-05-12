@@ -1,5 +1,6 @@
 package com.team404.visualwith.entity;
 
+import com.team404.visualwith.dto.calendar.CalAddRequest;
 import jakarta.persistence.*;
 
 @Entity
@@ -54,6 +55,20 @@ public class Calendar {
         this.wholeDay = wholeDay;
         this.teamId = teamId;
         this.userId = userId;
+    }
+
+    public Calendar(CalAddRequest calAddRequest) {
+        this.teamId = calAddRequest.getTeamId();
+        this.userId = calAddRequest.getUserId();
+        this.title = calAddRequest.getTitle();
+        this.content = calAddRequest.getContent();
+        this.startDate = calAddRequest.getStartDate();
+        this.startTime = calAddRequest.getStartTime();
+        this.createdDate = calAddRequest.getCreatedDate();
+        this.createdTime = calAddRequest.getCreatedTime();
+        this.completeDate = calAddRequest.getCompleteDate();
+        this.completeTime = calAddRequest.getCompleteTime();
+        this.wholeDay = calAddRequest.getWholeDay();
     }
 
     //Getter
