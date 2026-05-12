@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CalRepository extends JpaRepository<Calendar, Long> {
-    List<Todo> findByTeamId(String teamId);
-    List<Todo> findByUserId(String userId);
+    List<Calendar> findByTeamId(String teamId);
+    List<Calendar> findByUserId(String userId);
 }

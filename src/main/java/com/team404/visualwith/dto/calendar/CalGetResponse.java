@@ -1,5 +1,7 @@
 package com.team404.visualwith.dto.calendar;
 
+import com.team404.visualwith.entity.Calendar;
+
 public class CalGetResponse {
     private Long id;
     private String userId;
@@ -12,6 +14,17 @@ public class CalGetResponse {
 
     public CalGetResponse() {
 
+    }
+
+    public CalGetResponse(Calendar cal) {
+        this.id = cal.getId();
+        this.userId = cal.getUserId();
+        this.title = cal.getTitle();
+        this.content = cal.getContent();
+        this.startDate = cal.getStartDate();
+        this.startTime = cal.getStartTime();
+        this.completeDate = cal.getCompleteDate();
+        this.compltetTime = cal.getCompleteTime();
     }
 
     //Getter
