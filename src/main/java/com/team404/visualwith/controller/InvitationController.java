@@ -33,6 +33,11 @@ public class InvitationController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body((Map.of("message", e.getMessage())));
         }
+    }
 
+    @GetMapping("/invitation/{teamId}")
+    public String getInvitationURL(@PathVariable String teamId) {
+        // TODO
+        return null;
     }
 }
