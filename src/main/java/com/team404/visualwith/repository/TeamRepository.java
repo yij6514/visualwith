@@ -4,4 +4,5 @@ import com.team404.visualwith.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamRepository extends JpaRepository<Team, String> {
+    Boolean existsByTeamUrl(String teamUrl);
 }

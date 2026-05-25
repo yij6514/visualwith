@@ -1,6 +1,7 @@
 package com.team404.visualwith.controller;
 
 import com.team404.visualwith.dto.AddTeamMemberRequest;
+import com.team404.visualwith.service.TeamService;
 import com.team404.visualwith.service.UserTeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,11 @@ import java.util.Map;
 @RequestMapping("/api/teams")
 public class InvitationController {
     private final UserTeamService userTeamService;
+    private final TeamService teamService;
 
-    public InvitationController(UserTeamService userTeamService) {
+    public InvitationController(UserTeamService userTeamService,  TeamService teamService) {
         this.userTeamService = userTeamService;
+        this.teamService = teamService;
     }
 
     @PostMapping("/invitation/{teamId}")
@@ -24,8 +27,6 @@ public class InvitationController {
             @RequestHeader("X-USER-ID") String adminUserId) {
         try{
             userTeamService.addMember(teamId, adminUserId, request.getUserId());
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(Map.of("message", "팀 초대 완료"));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
@@ -33,11 +34,21 @@ public class InvitationController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body((Map.of("message", e.getMessage())));
         }
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of("message", "팀 초대 완료"));
     }
 
-    @GetMapping("/invitation/{teamId}")
-    public String getInvitationURL(@PathVariable String teamId) {
+    @GetMapping("/invitation/{teamId}/geturl")
+    public ResponseEntity<?> getInvitationURL(@PathVariable String teamId) {
         // TODO
-        return null;
+        String teamUrl;
+        try{
+            teamUrl = teamService.getTeamUrl(teamId);
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }
+        // url이 없으면 createurl 사용
+        return teamService.getTeamUrl(teamId);
     }
 }

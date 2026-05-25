@@ -9,6 +9,7 @@ import com.team404.visualwith.repository.TeamRepository;
 import com.team404.visualwith.repository.UserTeamRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 @Service
@@ -21,6 +22,7 @@ public class TeamService {
         this.userTeamRepository = userTeamRepository;
     }
 
+    // 팀 id 생성 메소드 -> 팀생성 메소드에서 사용
     private String generateSlug(int length) {
         final String CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();
@@ -32,13 +34,14 @@ public class TeamService {
         return slug.toString();
     }
 
+    // 팀 생성 메소드
     public TeamCreateResponse createTeam(String teamName, String creatorId) {
         String slug;
         do{
             slug = generateSlug(8);
         } while(teamRepository.existsById(slug));
 
-        Team team = new Team(slug, teamName, creatorId);
+        Team team = new Team(slug, teamName, creatorId, null, null);
         teamRepository.save(team);
 
         UserTeamId id = new UserTeamId(creatorId, slug);
@@ -51,6 +54,7 @@ public class TeamService {
         );
     }
 
+    // 팀 삭제 메소드
     public void deleteTeam(String teamId, String adminUserId) {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new SecurityException("팀을 찾을 수 없습니다."));
@@ -61,5 +65,33 @@ public class TeamService {
 
         userTeamRepository.deleteByIdTeamId(teamId);
         teamRepository.delete(team);
+    }
+
+    // 팀 url 반환 메소드
+    // invitationController에서 사용
+    public String getTeamUrl(String teamId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new SecurityException("팀을 찾을 수 없습니다."));
+
+        if(team.getUrlCreateDate())
+        return team.getTeamUrl();
+    }
+
+    // 팀 url 생성 메소드
+    // invitationController getInvitationUrl에서 사용
+    private String createTeamUrl(String teamId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new SecurityException("팀을 찾을 수 없습니다."));
+
+        // url 생성
+        String url;
+        do{
+            url = generateSlug(10);
+        } while(teamRepository.existsByTeamUrl(url));
+
+        team.setTeamUrl(url);
+        team.setCreateId(LocalDate.now().toString()); // url 생성시간
+        teamRepository.save(team);
+        return team.getTeamUrl();
     }
 }
