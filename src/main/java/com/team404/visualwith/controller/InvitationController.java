@@ -20,6 +20,8 @@ public class InvitationController {
         this.teamService = teamService;
     }
 
+    // 지정초대
+    // TODO 수정해야됨
     @PostMapping("/invitation/{teamId}")
     public ResponseEntity<?> addMember(
             @PathVariable String teamId,
@@ -38,17 +40,33 @@ public class InvitationController {
                 .body(Map.of("message", "팀 초대 완료"));
     }
 
+    // url 초대 
     @GetMapping("/invitation/{teamId}/geturl")
     public ResponseEntity<?> getInvitationURL(@PathVariable String teamId) {
-        // TODO
-        String teamUrl;
-        try{
-            teamUrl = teamService.getTeamUrl(teamId);
-        } catch (SecurityException e) {
+        try {
+            // url이 없으면 createurl 사용
+            String invitationUrl = teamId + "/" + teamService.getTeamUrl(teamId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Map.of("url", invitationUrl));
+        }
+        catch (SecurityException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
         }
-        // url이 없으면 createurl 사용
-        return teamService.getTeamUrl(teamId);
     }
+
+    // url 초대 수락
+    @PutMapping("/invitation/{teamId}/{invitationCode}")
+    public ResponseEntity<?> invitationAcceptUrl(@PathVariable String teamId, @PathVariable String invitationCode) {
+        // TODO
+        return null;
+    }
+
+    // 지정초대 수락
+    @PutMapping("/invitation/{teamId}/{userId}")
+    public ResponseEntity<?> inviationAccept(@PathVariable String teamId, @PathVariable String userId) {
+        // TODO
+        return null;
+    }
+
 }

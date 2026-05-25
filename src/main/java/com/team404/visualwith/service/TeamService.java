@@ -9,7 +9,9 @@ import com.team404.visualwith.repository.TeamRepository;
 import com.team404.visualwith.repository.UserTeamRepository;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 @Service
@@ -73,7 +75,15 @@ public class TeamService {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new SecurityException("팀을 찾을 수 없습니다."));
 
-        if(team.getUrlCreateDate())
+        int oriDate = Integer.parseInt(team.getUrlCreateDate());
+
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        int nowDate = Integer.parseInt(now.format(dateTimeFormatter));
+
+        if(nowDate - oriDate > 7 || team.getTeamUrl() == null) {
+            createTeamUrl(teamId);
+        }
         return team.getTeamUrl();
     }
 
