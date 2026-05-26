@@ -18,7 +18,6 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    //TODO
     public TodoAddResponse createTodo(TodoAddRequest todoAddRequest) {
         Todo todo = new Todo(todoAddRequest);
         todoRepository.save(todo);

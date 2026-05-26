@@ -1,10 +1,7 @@
 package com.team404.visualwith.service;
 
 import com.team404.visualwith.dto.TeamCreateResponse;
-import com.team404.visualwith.entity.Team;
-import com.team404.visualwith.entity.UserTeam;
-import com.team404.visualwith.entity.UserTeamId;
-import com.team404.visualwith.entity.UserTeamRole;
+import com.team404.visualwith.entity.*;
 import com.team404.visualwith.repository.TeamRepository;
 import com.team404.visualwith.repository.UserTeamRepository;
 import org.springframework.stereotype.Service;
@@ -47,7 +44,7 @@ public class TeamService {
         teamRepository.save(team);
 
         UserTeamId id = new UserTeamId(creatorId, slug);
-        UserTeam userTeam = new UserTeam(id, UserTeamRole.ADMIN);
+        UserTeam userTeam = new UserTeam(id, UserTeamRole.ADMIN, InvitationStatus.ACCEPTED);
         userTeamRepository.save(userTeam);
         return new TeamCreateResponse(
                 team.getId(),

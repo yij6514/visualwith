@@ -1,5 +1,6 @@
 package com.team404.visualwith.service;
 
+import com.team404.visualwith.dto.AddTeamMemberRequest;
 import com.team404.visualwith.entity.*;
 import com.team404.visualwith.repository.TeamRepository;
 import com.team404.visualwith.repository.UserRepository;
@@ -34,7 +35,18 @@ public class UserTeamService {
             throw new SecurityException("일반 멤버는 팀원을 추가 할 수 없습니다.");
         }
 
-        UserTeam targetUserTeam = new UserTeam(new UserTeamId(targetUserId, teamId), UserTeamRole.MEMBER);
+        UserTeam targetUserTeam = new UserTeam(new UserTeamId(targetUserId, teamId), UserTeamRole.MEMBER, InvitationStatus.PENDING);
+        userTeamRepository.save(targetUserTeam);
+    }
+
+    public void invitationUrlAccepted(String teamId, String invitationCode, AddTeamMemberRequest addTeamMemberRequest) {
+        Team targetTeam = teamRepository.findById(teamId)
+                .orElseThrow(() -> new IllegalArgumentException("팀이 존재하지 않습니다."));
+        String userId = addTeamMemberRequest.getUserId();
+        User targetUser = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("대상 사용자가 없습니다."));
+
+        UserTeam targetUserTeam = new UserTeam(new UserTeamId(userId, teamId), UserTeamRole.MEMBER, InvitationStatus.ACCEPTED);
         userTeamRepository.save(targetUserTeam);
     }
 }

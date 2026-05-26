@@ -56,16 +56,26 @@ public class InvitationController {
     }
 
     // url 초대 수락
-    @PutMapping("/invitation/{teamId}/{invitationCode}")
-    public ResponseEntity<?> invitationAcceptUrl(@PathVariable String teamId, @PathVariable String invitationCode) {
+    @PostMapping("/invitation/{teamId}/{invitationCode}")
+    public ResponseEntity<?> invitationAcceptUrl(@PathVariable String teamId, @PathVariable String invitationCode, AddTeamMemberRequest addTeamMemberRequest) {
         // TODO
-        return null;
+        try{
+            userTeamService.invitationUrlAccepted(teamId, invitationCode, addTeamMemberRequest);
+        }
+        catch(IllegalArgumentException e) {
+            // TODO httpstatus 맞는거로 찾기
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
+        }
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of("message", "팀 멤버로 추가되었습니다"));
     }
 
     // 지정초대 수락
     @PutMapping("/invitation/{teamId}/{userId}")
-    public ResponseEntity<?> inviationAccept(@PathVariable String teamId, @PathVariable String userId) {
+    public ResponseEntity<?> invitationAccept(@PathVariable String teamId, @PathVariable String userId) {
         // TODO
+        // userTeamService.invitationAccepted()
         return null;
     }
 
