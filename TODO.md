@@ -46,3 +46,8 @@ usercontroller 팀리스트 호출 메소드 필요
 /{userid}
 해당 유저가 속해 있는 팀리스트를 반환
 userteamservice에서 userid로 userteam의 데이터베이스 호출 팀리스트를 teamname, teamid로 호출
+
+teamcontroller 유저리스트 호출 메소드 필요
+/{teamid}/memberlist
+해당 팀의 유저리스트 반환
+userteam에서 teamid로 찾은 목록들을 list로 받고 이걸 dto로 반환

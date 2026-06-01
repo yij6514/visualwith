@@ -33,8 +33,9 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/teamList")
-    public List<ResponseEntity<?>> getTeamList(@PathVariable String userId) {
+    public ResponseEntity<?> getTeamList(@PathVariable String userId) {
         // TODO
-        return null;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userTeamService.getTeamList(userId));
     }
 }
