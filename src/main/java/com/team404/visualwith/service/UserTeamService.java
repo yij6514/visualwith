@@ -1,7 +1,8 @@
 package com.team404.visualwith.service;
 
 import com.team404.visualwith.dto.AddTeamMemberRequest;
-import com.team404.visualwith.dto.UserTeamGetResponse;
+import com.team404.visualwith.dto.TeamtoUserGetResponse;
+import com.team404.visualwith.dto.UsertoTeamGetResponse;
 import com.team404.visualwith.entity.*;
 import com.team404.visualwith.repository.TeamRepository;
 import com.team404.visualwith.repository.UserRepository;
@@ -64,12 +65,23 @@ public class UserTeamService {
         userTeamRepository.save(targetUserTeam);
     }
 
-    public List<UserTeamGetResponse> getMemberList(String teamId) {
+    public List<TeamtoUserGetResponse> getMemberList(String teamId) {
         List<UserTeam> memberList = userTeamRepository.findByIdTeamId(teamId);
-        List<UserTeamGetResponse> dtoList = new ArrayList<>();
+        List<TeamtoUserGetResponse> dtoList = new ArrayList<>();
 
         for(UserTeam userTeam : memberList) {
-            dtoList.add(new UserTeamGetResponse(userTeam));
+            dtoList.add(new TeamtoUserGetResponse(userTeam));
+        }
+
+        return dtoList;
+    }
+
+    public List<UsertoTeamGetResponse> getTeamList(String userId) {
+        List<UserTeam> teamList = userTeamRepository.findByIdUserId(userId);
+        List<UsertoTeamGetResponse> dtoList = new ArrayList<>();
+
+        for(UserTeam userTeam : teamList) {
+            dtoList.add(new UsertoTeamGetResponse(userTeam));
         }
 
         return dtoList;

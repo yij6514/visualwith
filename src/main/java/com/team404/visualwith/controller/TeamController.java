@@ -2,7 +2,7 @@ package com.team404.visualwith.controller;
 
 import com.team404.visualwith.dto.TeamCreateRequest;
 import com.team404.visualwith.dto.TeamCreateResponse;
-import com.team404.visualwith.dto.UserTeamGetResponse;
+import com.team404.visualwith.dto.TeamtoUserGetResponse;
 import com.team404.visualwith.service.TeamService;
 import com.team404.visualwith.service.UserTeamService;
 import org.springframework.http.HttpStatus;
@@ -49,7 +49,7 @@ public class TeamController {
 
     @GetMapping("/{teamId}/memberlist")
     public ResponseEntity<?> getTeamMemberList(@PathVariable String teamId) {
-        List<UserTeamGetResponse> memberList = userTeamService.getMemberList(teamId);
+        List<TeamtoUserGetResponse> memberList = userTeamService.getMemberList(teamId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(memberList);
     }

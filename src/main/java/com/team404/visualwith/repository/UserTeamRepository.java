@@ -12,4 +12,6 @@ public interface UserTeamRepository extends JpaRepository<UserTeam, UserTeamId> 
     void deleteByIdTeamId(String teamId);
     @Transactional
     List<UserTeam> findByIdTeamId(String teamId);
+    @Transactional
+    List<UserTeam> findByIdUserId(String userId);
 }
