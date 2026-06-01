@@ -2,20 +2,25 @@ package com.team404.visualwith.controller;
 
 import com.team404.visualwith.dto.TeamCreateRequest;
 import com.team404.visualwith.dto.TeamCreateResponse;
+import com.team404.visualwith.dto.UserTeamGetResponse;
 import com.team404.visualwith.service.TeamService;
+import com.team404.visualwith.service.UserTeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class TeamController {
     private final TeamService teamService;
+    private final UserTeamService userTeamService;
 
-    public TeamController(TeamService teamService) {
+    public TeamController(TeamService teamService, UserTeamService userTeamService) {
         this.teamService = teamService;
+        this.userTeamService = userTeamService;
     }
     
     @PostMapping("/createteam")
@@ -40,5 +45,12 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(Map.of("message", e.getMessage()));
         }
+    }
+
+    @GetMapping("/{teamId}/memberlist")
+    public ResponseEntity<?> getTeamMemberList(@PathVariable String teamId) {
+        List<UserTeamGetResponse> memberList = userTeamService.getMemberList(teamId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(memberList);
     }
 }

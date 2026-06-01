@@ -57,7 +57,7 @@ public class InvitationController {
 
     // url 초대 수락
     @PostMapping("/invitation/{teamId}/{invitationCode}")
-    public ResponseEntity<?> invitationAcceptUrl(@PathVariable String teamId, @PathVariable String invitationCode, AddTeamMemberRequest addTeamMemberRequest) {
+    public ResponseEntity<?> invitationAcceptUrl(@PathVariable String teamId, @PathVariable String invitationCode, @RequestBody AddTeamMemberRequest addTeamMemberRequest) {
         // TODO
         try{
             userTeamService.invitationUrlAccepted(teamId, invitationCode, addTeamMemberRequest);
@@ -76,7 +76,15 @@ public class InvitationController {
     public ResponseEntity<?> invitationAccept(@PathVariable String teamId, @PathVariable String userId) {
         // TODO
         // userTeamService.invitationAccepted()
-        return null;
+        try {
+            userTeamService.invitationAccepted(teamId, userId);
+        }
+        catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message",e.getMessage()));
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(Map.of("message", "팀 멤버가 수락하였습니다."));
     }
 
 }

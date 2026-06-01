@@ -2,8 +2,10 @@ package com.team404.visualwith.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class UserTeamId {
 
     @Column(name = "user_id")

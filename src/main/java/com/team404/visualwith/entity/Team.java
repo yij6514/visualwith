@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name="teams")
 @Getter
@@ -28,7 +30,7 @@ public class Team {
 
     @Setter
     @Column(name="url_create_date")
-    private String urlCreateDate;
+    private LocalDate urlCreateDate;
 
     public Team() {}
 }

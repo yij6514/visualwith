@@ -1,13 +1,15 @@
 package com.team404.visualwith.service;
 
 import com.team404.visualwith.dto.AddTeamMemberRequest;
+import com.team404.visualwith.dto.UserTeamGetResponse;
 import com.team404.visualwith.entity.*;
 import com.team404.visualwith.repository.TeamRepository;
 import com.team404.visualwith.repository.UserRepository;
 import com.team404.visualwith.repository.UserTeamRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserTeamService {
@@ -48,5 +50,28 @@ public class UserTeamService {
 
         UserTeam targetUserTeam = new UserTeam(new UserTeamId(userId, teamId), UserTeamRole.MEMBER, InvitationStatus.ACCEPTED);
         userTeamRepository.save(targetUserTeam);
+    }
+
+    public void invitationAccepted(String teamId, String userId) {
+        Team targetTeam = teamRepository.findById(teamId)
+                .orElseThrow(() -> new IllegalArgumentException("팀이 존재하지 않습니다."));
+        User targetUser = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("대상 사용자가 존재하지 않습니다."));
+        UserTeam targetUserTeam = userTeamRepository.findById(new UserTeamId(userId, teamId))
+                .orElseThrow(() -> new IllegalArgumentException("팀에 초대되지 않았습니다."));
+
+        targetUserTeam.setStatus(InvitationStatus.ACCEPTED);
+        userTeamRepository.save(targetUserTeam);
+    }
+
+    public List<UserTeamGetResponse> getMemberList(String teamId) {
+        List<UserTeam> memberList = userTeamRepository.findByIdTeamId(teamId);
+        List<UserTeamGetResponse> dtoList = new ArrayList<>();
+
+        for(UserTeam userTeam : memberList) {
+            dtoList.add(new UserTeamGetResponse(userTeam));
+        }
+
+        return dtoList;
     }
 }
