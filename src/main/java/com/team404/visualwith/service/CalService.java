@@ -32,7 +32,6 @@ public class CalService {
     }
 
     public void updateCal(CalUpdateRequest calUpdateRequest) {
-        //TODO
         Calendar cal = calRepository.findById(calUpdateRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Calenar 없음"));
         if(!(calUpdateRequest.getUserId().equals(cal.getUserId())
@@ -51,7 +50,6 @@ public class CalService {
     }
 
     public void deleteCal(CalDeleteRequest calDeleteRequest) {
-        //TODO
         Calendar cal = calRepository.findById(calDeleteRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Calenar 없음"));
         if(!(calDeleteRequest.getUserId().equals(cal.getUserId())

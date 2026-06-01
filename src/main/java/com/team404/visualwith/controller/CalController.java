@@ -33,7 +33,6 @@ public class CalController {
 
     @PutMapping
     public ResponseEntity<?> updateCal(@RequestBody CalUpdateRequest calUpdateRequest) {
-        //TODO
         try{
             calService.updateCal(calUpdateRequest);
         }
@@ -47,7 +46,6 @@ public class CalController {
 
     @DeleteMapping
     public ResponseEntity<?> deleteCal(@RequestBody CalDeleteRequest calDeleteRequest) {
-        //TODO
         try {
             calService.deleteCal(calDeleteRequest);
         }

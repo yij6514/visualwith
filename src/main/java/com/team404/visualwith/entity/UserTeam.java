@@ -1,8 +1,12 @@
 package com.team404.visualwith.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "user_teams")
 public class UserTeam {
     @EmbeddedId
@@ -12,16 +16,14 @@ public class UserTeam {
     @Column(name="role", nullable = false)
     private UserTeamRole role;
 
+    @Enumerated(EnumType.STRING)
+    private InvitationStatus status;
+
     public UserTeam() {}
 
-    public UserTeam(UserTeamId id, UserTeamRole role) {
+    public UserTeam(UserTeamId id, UserTeamRole role, InvitationStatus status) {
         this.id = id;
         this.role = role;
+        this.status = status;
     }
-
-    public UserTeamId getId() {return id;}
-    public UserTeamRole getRole() {return role;}
-
-    public void setId(UserTeamId id) {this.id = id;}
-    public void setRole(UserTeamRole role) {this.role = role;}
 }
