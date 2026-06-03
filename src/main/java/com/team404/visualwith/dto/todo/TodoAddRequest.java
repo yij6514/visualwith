@@ -1,5 +1,10 @@
 package com.team404.visualwith.dto.todo;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class TodoAddRequest {
     private String teamId;
     private String userId;
@@ -9,24 +14,4 @@ public class TodoAddRequest {
     private String createdTime;
 
     public TodoAddRequest() {}
-
-    //Getter
-    public String getTeamId() {return teamId;}
-    public String getUserId() {return userId;}
-
-    public String getTitle() {return title;}
-    public String getContent() {return content;}
-
-    public String getCreatedDate() {return createdDate;}
-    public String getCreatedTime() {return createdTime;}
-
-    //Setter
-    public void setTeamId(String teamid) {this.teamId = teamid;}
-    public void setUserId(String userId) {this.userId = userId;}
-
-    public void setTitle(String title) {this.title = title;}
-    public void setContent(String content) {this.content = content;}
-
-    public void setCreatedDate(String createdDate) {this.createdDate = createdDate;}
-    public void setCreatedTime(String createdTime) {this.createdTime = createdTime;}
 }

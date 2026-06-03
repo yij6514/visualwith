@@ -6,6 +6,8 @@ import com.team404.visualwith.entity.UserTeamRole;
 import com.team404.visualwith.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,8 +59,8 @@ public class TodoService {
         }
         todo.setModifierId(todoCompleteRequest.getUserId());
         todo.setCompleted(todoCompleteRequest.getComplete());
-        todo.setCompleteDate(todoCompleteRequest.getCompleteDate());
-        todo.setCompleteTime(todoCompleteRequest.getCompleteTime());
+        todo.setCompleteDate(LocalDate.now());
+        todo.setCompleteTime(LocalTime.now());
         todoRepository.save(todo);
     }
 
