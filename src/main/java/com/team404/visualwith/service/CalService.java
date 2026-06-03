@@ -6,6 +6,8 @@ import com.team404.visualwith.entity.UserTeamRole;
 import com.team404.visualwith.repository.CalRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +43,10 @@ public class CalService {
         }
         cal.setTitle(calUpdateRequest.getTitle());
         cal.setContent(calUpdateRequest.getContent());
-        cal.setStartDate(calUpdateRequest.getStartDate());
-        cal.setStartTime(calUpdateRequest.getStartTime());
-        cal.setCompleteDate(calUpdateRequest.getCompleteDate());
-        cal.setCompleteTime(calUpdateRequest.getCompleteTime());
+        cal.setStartDate(LocalDate.parse(calUpdateRequest.getStartDate()));
+        cal.setStartTime(LocalTime.parse(calUpdateRequest.getStartTime()));
+        cal.setCompleteDate(LocalDate.parse(calUpdateRequest.getCompleteDate()));
+        cal.setCompleteTime(LocalTime.parse(calUpdateRequest.getCompleteTime()));
         cal.setWholeDay(calUpdateRequest.getWholeDay());
         calRepository.save(cal);
     }
