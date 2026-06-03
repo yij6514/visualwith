@@ -2,8 +2,15 @@ package com.team404.visualwith.entity;
 
 import com.team404.visualwith.dto.calendar.CalAddRequest;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
+@Getter
+@Setter
 public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,17 +23,17 @@ public class Calendar {
 
     // 생성된 날짜와 시간 사용자가 임의 조작 불가
     @Column(nullable = false)
-    private String createdDate;
+    private LocalDate createdDate;
 
     @Column(nullable = false)
-    private String createdTime;
+    private LocalTime createdTime;
 
     // 일정이 시작될 시간
-    private String startDate;
-    private String startTime;
+    private LocalDate startDate;
+    private LocalTime startTime;
     
-    private String completeDate;
-    private String completeTime;
+    private LocalDate completeDate;
+    private LocalTime completeTime;
     private Boolean wholeDay;
 
     @Column(nullable = false)
@@ -40,9 +47,9 @@ public class Calendar {
 
     public Calendar(String teamId, String userId,
                     String title, String content,
-                    String createdDate, String createdTime,
-                    String startDate, String startTime,
-                    String completeDate, String completeTime,
+                    LocalDate createdDate, LocalTime createdTime,
+                    LocalDate startDate, LocalTime startTime,
+                    LocalDate completeDate, LocalTime completeTime,
                     Boolean wholeDay) {
         this.title = title;
         this.content = content;
@@ -62,107 +69,12 @@ public class Calendar {
         this.userId = calAddRequest.getUserId();
         this.title = calAddRequest.getTitle();
         this.content = calAddRequest.getContent();
-        this.startDate = calAddRequest.getStartDate();
-        this.startTime = calAddRequest.getStartTime();
-        this.createdDate = calAddRequest.getCreatedDate();
-        this.createdTime = calAddRequest.getCreatedTime();
-        this.completeDate = calAddRequest.getCompleteDate();
-        this.completeTime = calAddRequest.getCompleteTime();
+        this.startDate = LocalDate.parse(calAddRequest.getStartDate());
+        this.startTime = LocalTime.parse(calAddRequest.getStartTime());
+        this.createdDate = LocalDate.parse(calAddRequest.getCreatedDate());
+        this.createdTime = LocalTime.parse(calAddRequest.getCreatedTime());
+        this.completeDate = LocalDate.parse(calAddRequest.getCompleteDate());
+        this.completeTime = LocalTime.parse(calAddRequest.getCompleteTime());
         this.wholeDay = calAddRequest.getWholeDay();
-    }
-
-    //Getter
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public String getCompleteDate() {
-        return completeDate;
-    }
-
-    public String getCompleteTime() {
-        return completeTime;
-    }
-
-    public Boolean getWholeDay() {
-        return wholeDay;
-    }
-
-    public String getTeamId() {
-        return teamId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-
-    //Setter
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setCompleteDate(String completeDate) {
-        this.completeDate = completeDate;
-    }
-
-    public void setCompleteTime(String completeTime) {
-        this.completeTime = completeTime;
-    }
-
-    public void setWholeDay(Boolean wholeDay) {
-        this.wholeDay = wholeDay;
-    }
-
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }
