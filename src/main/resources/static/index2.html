@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+<h2>STOMP Chat Test</h2>
+
+<input id="msg">
+<button onclick="send()">전송</button>
+
+<script>
+const client = new StompJs.Client({
+    brokerURL: "ws://localhost:8080/ws"
+});
+
+client.onConnect = () => {
+    client.subscribe("/sub/chatroom/1", msg => {
+        console.log("받음", msg.body);
+    });
+};
+
+client.activate();
+
+function send() {
+    client.publish({
+        destination: "/pub/message",
+        body: JSON.stringify({
+            id: 1,
+            name: "kim",
+            message: document.getElementById("msg").value
+        })
+    });
+}
+</script>
+
+</body>
+</html>
