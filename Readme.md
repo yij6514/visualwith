@@ -1,4 +1,4 @@
-# API 문서 (초안)
+# API 문서
 
 본 문서는 사용자 인증 및 팀 관리 기능을 제공하는 REST API에 대한 설명이다.
 
@@ -93,17 +93,36 @@
 - `401 Unauthorized` : 아이디 또는 비밀번호 불일치
 
 ---
-## 3. 팀 API
+
+## 4. Get Me API
+
+**URL**: `/api/users/me`
+- **Method**: `GET`
+
+#### Response (200 OK)
+```json
+{
+  "userId": "string",
+  "userName": "String"
+}
+```
+
+#### Error Response
+- `400 Bad Request` : 대상 사용자가 없습니다
+- JWT 토큰이 인증이 다되었을 경우도 error response
+
+---
+## A. 팀 API
 
 #### [- 팀 API 문서](Docs/Team.md)
 
 ---
-## 4. 할 일 목록
+## B. 할 일 목록
 
 #### [- 할 일 목록 API 문서](Docs/Todo.md)
 
 ---
-## 5. 일정관리
+## C. 일정관리
 
 #### [- 일정관리 API 문서](Docs/Calendar.md)
 
