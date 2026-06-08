@@ -7,6 +7,7 @@ import com.team404.visualwith.service.TeamService;
 import com.team404.visualwith.service.UserTeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class TeamController {
         this.teamService = teamService;
         this.userTeamService = userTeamService;
     }
-    
+
+    // 팀 만들기
     @PostMapping("/createteam")
     public ResponseEntity<TeamCreateResponse> createTeam(
             @RequestBody TeamCreateRequest teamRequest,
@@ -31,12 +33,13 @@ public class TeamController {
         return ResponseEntity.ok(response);
     }
 
+    // 팀 삭제
     @DeleteMapping("/teams/{teamId}")
-    public ResponseEntity<?> deleteTeam(
-            @RequestHeader("X-USER-ID") String userId,
-            @PathVariable String teamId) {
+    public ResponseEntity<?> deleteTeam(@RequestHeader("X-USER-ID") String userId,
+                                        @PathVariable String teamId,
+                                        Authentication auth) {
         try{
-            teamService.deleteTeam(teamId, userId);
+            teamService.deleteTeam(teamId, auth.getName());
             return ResponseEntity.ok(Map.of("message","팀 삭제 완료"));
         } catch(SecurityException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
