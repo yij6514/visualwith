@@ -1,6 +1,7 @@
 package com.team404.visualwith.entity;
 
 import com.team404.visualwith.dto.calendar.CalAddRequest;
+import com.team404.visualwith.dto.calendar.CalUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -64,9 +65,9 @@ public class Calendar {
         this.userId = userId;
     }
 
-    public Calendar(CalAddRequest calAddRequest) {
+    public Calendar(CalAddRequest calAddRequest, String userId) {
         this.teamId = calAddRequest.getTeamId();
-        this.userId = calAddRequest.getUserId();
+        this.userId = userId;
         this.title = calAddRequest.getTitle();
         this.content = calAddRequest.getContent();
         this.startDate = LocalDate.parse(calAddRequest.getStartDate());
@@ -76,5 +77,15 @@ public class Calendar {
         this.completeDate = LocalDate.parse(calAddRequest.getCompleteDate());
         this.completeTime = LocalTime.parse(calAddRequest.getCompleteTime());
         this.wholeDay = calAddRequest.getWholeDay();
+    }
+
+    public void update(CalUpdateRequest request) {
+        this.title = request.getTitle();
+        this.content = request.getContent();
+        this.startDate = LocalDate.parse(request.getStartDate());
+        this.startTime = LocalTime.parse(request.getStartTime());
+        this.completeDate = LocalDate.parse(request.getCompleteDate());
+        this.completeTime = LocalTime.parse(request.getCompleteTime());
+        this.wholeDay = request.getWholeDay();
     }
 }

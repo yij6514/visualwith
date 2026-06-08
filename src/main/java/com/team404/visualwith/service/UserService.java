@@ -1,5 +1,6 @@
 package com.team404.visualwith.service;
 
+import com.team404.visualwith.dto.GetMeResponse;
 import com.team404.visualwith.dto.UserRegisterRequestDto;
 import com.team404.visualwith.dto.UserResponseDto;
 import com.team404.visualwith.entity.User;
@@ -39,5 +40,11 @@ public class UserService {
         response.put("available", !exists);
 
         return response;
+    }
+
+    public GetMeResponse getMe(String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("대상 사용자가 없습니다."));
+        return new GetMeResponse(user);
     }
 }

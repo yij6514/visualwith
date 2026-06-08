@@ -5,6 +5,7 @@ import com.team404.visualwith.service.TeamService;
 import com.team404.visualwith.service.UserTeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ public class InvitationController {
     private final UserTeamService userTeamService;
     private final TeamService teamService;
 
-    public InvitationController(UserTeamService userTeamService,  TeamService teamService) {
+    public InvitationController(UserTeamService userTeamService, TeamService teamService) {
         this.userTeamService = userTeamService;
         this.teamService = teamService;
     }
@@ -23,12 +24,12 @@ public class InvitationController {
     // 지정초대
     // TODO 수정해야됨
     @PostMapping("/invitation/{teamId}")
-    public ResponseEntity<?> addMember(
-            @PathVariable String teamId,
-            @RequestBody AddTeamMemberRequest request,
-            @RequestHeader("X-USER-ID") String adminUserId) {
+    public ResponseEntity<?> addMember(@PathVariable String teamId,
+                                       @RequestBody AddTeamMemberRequest request,
+                                       @RequestHeader("X-USER-ID") String adminUserId,
+                                       Authentication auth) {
         try{
-            userTeamService.addMember(teamId, adminUserId, request.getUserId());
+            userTeamService.addMember(teamId, auth.getName(), request.getUserId());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
@@ -57,10 +58,12 @@ public class InvitationController {
 
     // url 초대 수락
     @PostMapping("/invitation/{teamId}/{invitationCode}")
-    public ResponseEntity<?> invitationAcceptUrl(@PathVariable String teamId, @PathVariable String invitationCode, @RequestBody AddTeamMemberRequest addTeamMemberRequest) {
-        // TODO
+    public ResponseEntity<?> invitationAcceptUrl(@PathVariable String teamId,
+                                                 @PathVariable String invitationCode,
+                                                 @RequestBody AddTeamMemberRequest addTeamMemberRequest,
+                                                 Authentication auth) {
         try{
-            userTeamService.invitationUrlAccepted(teamId, invitationCode, addTeamMemberRequest);
+            userTeamService.invitationUrlAccepted(teamId, invitationCode, auth.getName());
         }
         catch(IllegalArgumentException e) {
             // TODO httpstatus 맞는거로 찾기
@@ -73,11 +76,11 @@ public class InvitationController {
 
     // 지정초대 수락
     @PutMapping("/invitation/{teamId}/{userId}")
-    public ResponseEntity<?> invitationAccept(@PathVariable String teamId, @PathVariable String userId) {
-        // TODO
-        // userTeamService.invitationAccepted()
+    public ResponseEntity<?> invitationAccept(@PathVariable String teamId,
+                                              @PathVariable String userId,
+                                              Authentication auth) {
         try {
-            userTeamService.invitationAccepted(teamId, userId);
+            userTeamService.invitationAccepted(teamId, auth.getName());
         }
         catch(IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -86,5 +89,4 @@ public class InvitationController {
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(Map.of("message", "팀 멤버가 수락하였습니다."));
     }
-
 }
