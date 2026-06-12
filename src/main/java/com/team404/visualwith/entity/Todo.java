@@ -63,9 +63,21 @@ public class Todo {
     }
 
     public void complete(TodoCompleteRequest request) {
-        this.completeDate = LocalDate.parse(request.getCompleteDate());
-        this.completeTime = LocalTime.parse(request.getCompleteTime());
         this.modifierId = request.getUserId();
         this.completed = request.getComplete();
+
+        if(request.getCompleteDate().isEmpty()) {
+            this.completeDate = null;
+        }
+        else {
+            this.completeDate = LocalDate.parse(request.getCompleteDate());
+        }
+
+        if(request.getCompleteTime().isEmpty()) {
+            this.completeTime = null;
+        }
+        else {
+            this.completeTime = LocalTime.parse(request.getCompleteTime());
+        }
     }
 }

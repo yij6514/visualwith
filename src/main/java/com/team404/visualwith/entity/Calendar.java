@@ -3,7 +3,9 @@ package com.team404.visualwith.entity;
 import com.team404.visualwith.dto.calendar.CalAddRequest;
 import com.team404.visualwith.dto.calendar.CalUpdateRequest;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -12,6 +14,8 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,62 +47,79 @@ public class Calendar {
     @Column(nullable = false)
     private String userId;
 
-    public Calendar() {
-    }
-
-    public Calendar(String teamId, String userId,
-                    String title, String content,
-                    LocalDate createdDate, LocalTime createdTime,
-                    LocalDate startDate, LocalTime startTime,
-                    LocalDate completeDate, LocalTime completeTime,
-                    Boolean wholeDay) {
-        this.title = title;
-        this.content = content;
-        this.createdDate = createdDate;
-        this.createdTime = createdTime;
-        this.startDate = startDate;
-        this.startTime = startTime;
-        this.completeDate = completeDate;
-        this.completeTime = completeTime;
-        this.wholeDay = wholeDay;
-        this.teamId = teamId;
-        this.userId = userId;
-    }
-
     public Calendar(CalAddRequest calAddRequest, String userId) {
         this.teamId = calAddRequest.getTeamId();
         this.userId = userId;
         this.title = calAddRequest.getTitle();
         this.content = calAddRequest.getContent();
-
-        this.startDate = LocalDate.parse(calAddRequest.getStartDate());
-        this.startTime = LocalTime.parse(calAddRequest.getStartTime());
+        this.wholeDay = calAddRequest.getWholeDay();
         this.createdDate = LocalDate.parse(calAddRequest.getCreatedDate());
         this.createdTime = LocalTime.parse(calAddRequest.getCreatedTime());
-        
+
+        // start 시간
+        if(calAddRequest.getStartDate().isEmpty()){
+            this.startDate = null;
+        }
+        else{
+            this.startDate = LocalDate.parse(calAddRequest.getStartDate());
+        }
+
+        if(calAddRequest.getStartTime().isEmpty()){
+            this.startTime = null;
+        }
+        else{
+            this.startTime = LocalTime.parse(calAddRequest.getStartTime());
+        }
+
+        // complete 시간
         if(calAddRequest.getCompleteDate().isEmpty()){
             this.completeDate = null;
         }
         else{
             this.completeDate = LocalDate.parse(calAddRequest.getCompleteDate());
         }
+
         if(calAddRequest.getCompleteTime().isEmpty()){
             this.completeTime = null;
         }
         else{
             this.completeTime = LocalTime.parse(calAddRequest.getCompleteTime());
         }
-
-        this.wholeDay = calAddRequest.getWholeDay();
     }
 
     public void update(CalUpdateRequest request) {
         this.title = request.getTitle();
         this.content = request.getContent();
-        this.startDate = LocalDate.parse(request.getStartDate());
-        this.startTime = LocalTime.parse(request.getStartTime());
-        this.completeDate = LocalDate.parse(request.getCompleteDate());
-        this.completeTime = LocalTime.parse(request.getCompleteTime());
         this.wholeDay = request.getWholeDay();
+
+        // start 시간
+        if(request.getStartDate().isEmpty()){
+            this.startDate = null;
+        }
+        else {
+            this.startDate = LocalDate.parse(request.getStartDate());
+        }
+
+        if(request.getStartTime().isEmpty()) {
+            this.startTime = null;
+        }
+        else {
+            this.startTime = LocalTime.parse(request.getStartTime());
+        }
+
+        // complete 시간
+        if(request.getCompleteDate().isEmpty()){
+            this.completeDate = null;
+        }
+        else {
+            this.completeDate = LocalDate.parse(request.getCompleteDate());
+        }
+
+        if(request.getCompleteTime().isEmpty()) {
+            this.completeTime = null;
+        }
+        else {
+            this.completeTime = LocalTime.parse(request.getCompleteTime());
+        }
     }
 }

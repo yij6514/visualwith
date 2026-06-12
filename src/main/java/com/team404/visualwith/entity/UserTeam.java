@@ -17,6 +17,7 @@ public class UserTeam {
     private UserTeamRole role;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="status")
     private InvitationStatus status;
 
     public UserTeam() {}
