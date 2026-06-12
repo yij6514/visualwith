@@ -70,12 +70,25 @@ public class Calendar {
         this.userId = userId;
         this.title = calAddRequest.getTitle();
         this.content = calAddRequest.getContent();
+
         this.startDate = LocalDate.parse(calAddRequest.getStartDate());
         this.startTime = LocalTime.parse(calAddRequest.getStartTime());
         this.createdDate = LocalDate.parse(calAddRequest.getCreatedDate());
         this.createdTime = LocalTime.parse(calAddRequest.getCreatedTime());
-        this.completeDate = LocalDate.parse(calAddRequest.getCompleteDate());
-        this.completeTime = LocalTime.parse(calAddRequest.getCompleteTime());
+        
+        if(calAddRequest.getCompleteDate().isEmpty()){
+            this.completeDate = null;
+        }
+        else{
+            this.completeDate = LocalDate.parse(calAddRequest.getCompleteDate());
+        }
+        if(calAddRequest.getCompleteTime().isEmpty()){
+            this.completeTime = null;
+        }
+        else{
+            this.completeTime = LocalTime.parse(calAddRequest.getCompleteTime());
+        }
+
         this.wholeDay = calAddRequest.getWholeDay();
     }
 
