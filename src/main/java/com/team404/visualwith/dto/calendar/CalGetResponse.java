@@ -14,7 +14,7 @@ public class CalGetResponse {
     private String startDate;
     private String startTime;
     private String completeDate;
-    private String compltetTime;
+    private String completeTime;
     private boolean wholeDay;
 
     public CalGetResponse() {}
@@ -26,8 +26,21 @@ public class CalGetResponse {
         this.content = cal.getContent();
         this.startDate = cal.getStartDate().toString();
         this.startTime = cal.getStartTime().toString();
-        this.completeDate = cal.getCompleteDate().toString();
-        this.compltetTime = cal.getCompleteTime().toString();
+
+        // complete
+        if(cal.getCompleteDate() == null) {
+            this.completeDate = "";
+        }
+        else {
+            this.completeDate = cal.getCompleteDate().toString();
+        }
+        if(cal.getCompleteTime() == null) {
+            this.completeTime = "";
+        }
+        else {
+            this.completeTime = cal.getCompleteTime().toString();
+        }
+
         this.wholeDay = cal.getWholeDay();
     }
 }
