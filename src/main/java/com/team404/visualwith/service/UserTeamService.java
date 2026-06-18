@@ -42,10 +42,9 @@ public class UserTeamService {
         userTeamRepository.save(targetUserTeam);
     }
 
-    public void invitationUrlAccepted(String teamId, String invitationCode, AddTeamMemberRequest addTeamMemberRequest) {
+    public void invitationUrlAccepted(String teamId, String invitationCode, String userId) {
         Team targetTeam = teamRepository.findById(teamId)
                 .orElseThrow(() -> new IllegalArgumentException("팀이 존재하지 않습니다."));
-        String userId = addTeamMemberRequest.getUserId();
         User targetUser = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("대상 사용자가 없습니다."));
 
@@ -70,7 +69,9 @@ public class UserTeamService {
         List<TeamtoUserGetResponse> dtoList = new ArrayList<>();
 
         for(UserTeam userTeam : memberList) {
-            dtoList.add(new TeamtoUserGetResponse(userTeam));
+            User user = userRepository.findByUserId(userTeam.getId().getUserId())
+                    .orElseThrow(() -> new IllegalArgumentException("대상 사용자가 없습니다."));
+            dtoList.add(new TeamtoUserGetResponse(userTeam, user));
         }
 
         return dtoList;
@@ -81,7 +82,9 @@ public class UserTeamService {
         List<UsertoTeamGetResponse> dtoList = new ArrayList<>();
 
         for(UserTeam userTeam : teamList) {
-            dtoList.add(new UsertoTeamGetResponse(userTeam));
+            Team team = teamRepository.findById(userTeam.getId().getTeamId())
+                    .orElseThrow(() -> new IllegalArgumentException("대상 팀이 없습니다."));
+            dtoList.add(new UsertoTeamGetResponse(userTeam, team));
         }
 
         return dtoList;

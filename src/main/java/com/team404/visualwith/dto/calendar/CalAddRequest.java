@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CalAddRequest {
     private String teamId;
-    private String userId;
     private String title;
     private String content;
     private String startDate;

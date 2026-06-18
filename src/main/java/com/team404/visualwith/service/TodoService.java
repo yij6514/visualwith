@@ -20,12 +20,14 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    public TodoAddResponse createTodo(TodoAddRequest todoAddRequest) {
-        Todo todo = new Todo(todoAddRequest);
+    // 할 일 생성
+    public TodoAddResponse createTodo(TodoAddRequest todoAddRequest, String userId) {
+        Todo todo = new Todo(todoAddRequest, userId);
         todoRepository.save(todo);
         return new TodoAddResponse(todo.getId());
     }
 
+    // 할 일 목록 조회
     public List<TodoGetResponse> getTodo(String teamId) {
         List<Todo> todoList = todoRepository.findByTeamId(teamId);
         List<TodoGetResponse> dtoList = new ArrayList<>();
@@ -35,32 +37,26 @@ public class TodoService {
         return dtoList;
     }
 
-    public void updateTodo(TodoUpdateRequest todoUpdateRequest) {
+    // 할 일 수정
+    public void updateTodo(TodoUpdateRequest todoUpdateRequest, String userId) {
         Todo todo = todoRepository.findById(todoUpdateRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Todo 없음"));
-        if(!(todoUpdateRequest.getUserId().equals(todo.getCreatorId())
-                || todoUpdateRequest.getUserTeamRole() == UserTeamRole.SUB_ADMIN
-                || todoUpdateRequest.getUserTeamRole() == UserTeamRole.ADMIN)) {
+        if(!(userId.equals(todo.getCreatorId()))
+                || todoUpdateRequest.getUserTeamRole() != UserTeamRole.MEMBER) {
             throw new RuntimeException("권한이 없습니다.");
         }
-        todo.setTitle(todoUpdateRequest.getTitle());
-        todo.setContent(todoUpdateRequest.getContent());
-        todo.setModifierId(todoUpdateRequest.getUserId());
+        todo.update(todoUpdateRequest);
         todoRepository.save(todo);
     }
 
-    public void completeTodo(TodoCompleteRequest todoCompleteRequest) {
+    public void completeTodo(TodoCompleteRequest todoCompleteRequest, String userId) {
         Todo todo = todoRepository.findById(todoCompleteRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Todo 없음"));
-        if(!(todoCompleteRequest.getUserId().equals(todo.getCreatorId())
-                || todoCompleteRequest.getUserTeamRole() == UserTeamRole.SUB_ADMIN
-                || todoCompleteRequest.getUserTeamRole() == UserTeamRole.ADMIN)) {
+        if(!(userId.equals(todo.getCreatorId()))
+                || todoCompleteRequest.getUserTeamRole() != UserTeamRole.MEMBER) {
             throw new RuntimeException("권한이 없습니다.");
         }
-        todo.setModifierId(todoCompleteRequest.getUserId());
-        todo.setCompleted(todoCompleteRequest.getComplete());
-        todo.setCompleteDate(LocalDate.now());
-        todo.setCompleteTime(LocalTime.now());
+        todo.complete(todoCompleteRequest);
         todoRepository.save(todo);
     }
 

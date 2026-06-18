@@ -7,6 +7,7 @@ import com.team404.visualwith.dto.calendar.CalUpdateRequest;
 import com.team404.visualwith.service.CalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,14 +28,14 @@ public class CalController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postCal(@RequestBody CalAddRequest calAddRequest) {
-        return ResponseEntity.ok(calService.createCal(calAddRequest));
+    public ResponseEntity<?> postCal(@RequestBody CalAddRequest calAddRequest, Authentication auth) {
+        return ResponseEntity.ok(calService.createCal(calAddRequest, auth.getName()));
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCal(@RequestBody CalUpdateRequest calUpdateRequest) {
+    public ResponseEntity<?> updateCal(@RequestBody CalUpdateRequest calUpdateRequest, Authentication auth) {
         try{
-            calService.updateCal(calUpdateRequest);
+            calService.updateCal(calUpdateRequest, auth.getName());
         }
         catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -45,9 +46,9 @@ public class CalController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteCal(@RequestBody CalDeleteRequest calDeleteRequest) {
+    public ResponseEntity<?> deleteCal(@RequestBody CalDeleteRequest calDeleteRequest, Authentication auth) {
         try {
-            calService.deleteCal(calDeleteRequest);
+            calService.deleteCal(calDeleteRequest, auth.getName());
         }
         catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

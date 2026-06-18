@@ -1,6 +1,8 @@
 package com.team404.visualwith.entity;
 
 import com.team404.visualwith.dto.todo.TodoAddRequest;
+import com.team404.visualwith.dto.todo.TodoCompleteRequest;
+import com.team404.visualwith.dto.todo.TodoUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,13 +46,38 @@ public class Todo {
 
     public Todo() {}
 
-    public Todo(TodoAddRequest todoAddRequest) {
+    public Todo(TodoAddRequest todoAddRequest, String userId) {
         this.title = todoAddRequest.getTitle();
         this.content = todoAddRequest.getContent();
         this.createdDate = LocalDate.now();
         this.createdTime = LocalTime.now();
-        this.creatorId = todoAddRequest.getUserId();
+        this.creatorId = userId;
         this.teamId = todoAddRequest.getTeamId();
         this.completed = false;
+    }
+
+    public void update(TodoUpdateRequest request) {
+        this.title = request.getTitle();
+        this.content = request.getContent();
+        this.modifierId = request.getUserId();
+    }
+
+    public void complete(TodoCompleteRequest request) {
+        this.modifierId = request.getUserId();
+        this.completed = request.getComplete();
+
+        if(request.getCompleteDate().isEmpty()) {
+            this.completeDate = null;
+        }
+        else {
+            this.completeDate = LocalDate.parse(request.getCompleteDate());
+        }
+
+        if(request.getCompleteTime().isEmpty()) {
+            this.completeTime = null;
+        }
+        else {
+            this.completeTime = LocalTime.parse(request.getCompleteTime());
+        }
     }
 }

@@ -11,6 +11,5 @@ import lombok.Setter;
 public class CalDeleteRequest {
     private Long id;
     private String teamId;
-    private String userId;
     private UserTeamRole userTeamRole;
 }

@@ -28,35 +28,27 @@ public class CalService {
         return list;
     }
 
-    public CalAddResponse createCal(CalAddRequest calAddRequest) {
-        Calendar cal = calRepository.save(new Calendar(calAddRequest));
+    public CalAddResponse createCal(CalAddRequest calAddRequest, String userId) {
+        Calendar cal = calRepository.save(new Calendar(calAddRequest, userId));
         return new CalAddResponse(cal.getId());
     }
 
-    public void updateCal(CalUpdateRequest calUpdateRequest) {
+    public void updateCal(CalUpdateRequest calUpdateRequest, String userId) {
         Calendar cal = calRepository.findById(calUpdateRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Calenar 없음"));
-        if(!(calUpdateRequest.getUserId().equals(cal.getUserId())
-                || calUpdateRequest.getUserTeamRole() == UserTeamRole.ADMIN
-                || calUpdateRequest.getUserTeamRole() == UserTeamRole.SUB_ADMIN)) {
+        if(!(userId.equals(cal.getUserId())
+                || calUpdateRequest.getUserTeamRole() != UserTeamRole.MEMBER)) {
             throw new RuntimeException("권한이 없습니다.");
         }
-        cal.setTitle(calUpdateRequest.getTitle());
-        cal.setContent(calUpdateRequest.getContent());
-        cal.setStartDate(LocalDate.parse(calUpdateRequest.getStartDate()));
-        cal.setStartTime(LocalTime.parse(calUpdateRequest.getStartTime()));
-        cal.setCompleteDate(LocalDate.parse(calUpdateRequest.getCompleteDate()));
-        cal.setCompleteTime(LocalTime.parse(calUpdateRequest.getCompleteTime()));
-        cal.setWholeDay(calUpdateRequest.getWholeDay());
+        cal.update(calUpdateRequest);
         calRepository.save(cal);
     }
 
-    public void deleteCal(CalDeleteRequest calDeleteRequest) {
+    public void deleteCal(CalDeleteRequest calDeleteRequest, String userId) {
         Calendar cal = calRepository.findById(calDeleteRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Calenar 없음"));
-        if(!(calDeleteRequest.getUserId().equals(cal.getUserId())
-                || calDeleteRequest.getUserTeamRole() == UserTeamRole.ADMIN
-                || calDeleteRequest.getUserTeamRole() == UserTeamRole.SUB_ADMIN)) {
+        if(!(userId.equals(cal.getUserId())
+                || calDeleteRequest.getUserTeamRole() != UserTeamRole.MEMBER)) {
             throw new RuntimeException("권한이 없습니다.");
         }
         calRepository.deleteById(calDeleteRequest.getId());
