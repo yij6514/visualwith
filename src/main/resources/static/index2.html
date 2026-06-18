@@ -26,10 +26,10 @@ client.activate();
 
 function send() {
     client.publish({
-        destination: "/pub/message",
+        destination: "/pub/message/1",
         body: JSON.stringify({
-            id: 1,
-            name: "kim",
+            roomId: 1,
+            sender: "kim",
             message: document.getElementById("msg").value
         })
     });
