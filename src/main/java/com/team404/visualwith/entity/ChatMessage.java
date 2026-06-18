@@ -28,10 +28,10 @@ public class ChatMessage {
     private LocalTime receivedTime;
 
     public ChatMessage(ChatReceived chat) {
-        this.roomId = chat.getRoomId();
-        this.sender = chat.getSender();
+        this.roomId = chat.getId();
+        this.sender = chat.getName();
         this.message = chat.getMessage();
         this.receivedDate = LocalDate.now();
-        this.receivedTime = LocalTime.now();
+        this.receivedTime = LocalTime.now().withSecond(0).withNano(0);
     }
 }

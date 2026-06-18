@@ -15,9 +15,9 @@ import java.util.List;
 public class ChatService {
     private final ChatRepository chatRepository;
 
-    public void chatSave(ChatReceived chatMessage) {
+    public ChatResponse chatSave(ChatReceived chatMessage) {
         ChatMessage chat = new ChatMessage(chatMessage);
-        chatRepository.save(chat);
+        return new ChatResponse(chatRepository.save(chat));
     }
 
     public List<ChatResponse> chatLoad(String roomId) {

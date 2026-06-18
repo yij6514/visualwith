@@ -83,7 +83,9 @@
 #### Response (200 OK)
 ```json
 {
+  "userId" : "string",
   "username": "string",
+  "userEmail" : "string",
   "token": "jwt-token",
   "message": "login success"
 }
@@ -94,7 +96,7 @@
 
 ---
 
-## 4. Get Me API
+## 3. Get Me API
 
 **URL**: `/api/users/me`
 - **Method**: `GET`
@@ -125,6 +127,12 @@
 ## C. 일정관리
 
 #### [- 일정관리 API 문서](Docs/Calendar.md)
+
+---
+
+## D. 채팅
+
+#### [- 채팅 API 문서](Docs/Chat.md)
 
 ---
 ## 공통 사항
