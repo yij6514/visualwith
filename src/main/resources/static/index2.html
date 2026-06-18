@@ -17,7 +17,7 @@ const client = new StompJs.Client({
 });
 
 client.onConnect = () => {
-    client.subscribe("/sub/chatroom/1", msg => {
+    client.subscribe("/sub/chatroom/testteam", msg => {
         console.log("받음", msg.body);
     });
 };
@@ -26,9 +26,9 @@ client.activate();
 
 function send() {
     client.publish({
-        destination: "/pub/message/1",
+        destination: "/pub/message/testteam",
         body: JSON.stringify({
-            roomId: 1,
+            roomId: "testteam",
             sender: "kim",
             message: document.getElementById("msg").value
         })
