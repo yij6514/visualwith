@@ -28,8 +28,8 @@ function send() {
     client.publish({
         destination: "/pub/message/testteam",
         body: JSON.stringify({
-            roomId: "testteam",
-            sender: "kim",
+            id: "testteam",
+            name: "kim",
             message: document.getElementById("msg").value
         })
     });

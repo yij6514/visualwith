@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class ChatReceived {
-    private String roomId;
-    private String sender;
+    private String id;
+    private String name;
     private String message;
 }
