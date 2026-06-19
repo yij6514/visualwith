@@ -207,7 +207,9 @@
   "userId" : "string",
   "teamId" : "string",
   "userTeamRole" : "userTeamRole", // ADMIN, SUB_ADMIN, MEMBER
-  "invitationStatus" : "invitationStatus" // PENDING, ACCEPTED
+  "invitationStatus" : "invitationStatus", // PENDING, ACCEPTED
+  "userName": "string",
+  "userEmail": "string"
 }
 ```
 
