@@ -17,6 +17,7 @@ public class TeamtoUserGetResponse {
     private UserTeamRole userTeamRole;
     private InvitationStatus invitationStatus;
     private String userName;
+    private String userEmail;
 
     public TeamtoUserGetResponse(UserTeam userTeam, User user) {
         this.userId = userTeam.getId().getUserId();
@@ -24,5 +25,6 @@ public class TeamtoUserGetResponse {
         this.userTeamRole = userTeam.getRole();
         this.invitationStatus = userTeam.getStatus();
         this.userName = user.getName();
+        this.userEmail = user.getEmail();
     }
 }

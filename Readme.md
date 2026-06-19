@@ -83,9 +83,11 @@
 #### Response (200 OK)
 ```json
 {
-  "username": "string",
+  "userId": "string",
+  "userName": "string",
+  "userEmail": "string",
   "token": "jwt-token",
-  "message": "login success"
+  "message": "ok"
 }
 ```
 
@@ -103,7 +105,8 @@
 ```json
 {
   "userId": "string",
-  "userName": "String"
+  "name": "String",
+  "email": "string"
 }
 ```
 
