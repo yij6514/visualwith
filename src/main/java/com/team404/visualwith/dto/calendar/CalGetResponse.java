@@ -24,8 +24,20 @@ public class CalGetResponse {
         this.userId = cal.getUserId();
         this.title = cal.getTitle();
         this.content = cal.getContent();
-        this.startDate = cal.getStartDate().toString();
-        this.startTime = cal.getStartTime().toString();
+
+        if(cal.getStartDate() == null) {
+            this.startDate = "";
+        }
+        else {
+            this.startDate = cal.getStartDate().toString();
+        }
+        if(cal.getStartTime() == null) {
+            this.startTime = "";
+        }
+        else {
+            this.startTime = cal.getStartTime().toString();
+        }
+
 
         // complete
         if(cal.getCompleteDate() == null) {
