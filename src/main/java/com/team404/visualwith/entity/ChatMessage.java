@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -15,23 +16,26 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name="message")
 public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="message_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name="chat_id")
     private String roomId;
+    @Column(name="sender_id")
     private String sender;
+    @Column(name="content")
     private String message;
-    private LocalDate receivedDate;
-    private LocalTime receivedTime;
+    @Column(name="created_at")
+    private LocalDateTime receivedAt;
 
     public ChatMessage(ChatReceived chat) {
         this.roomId = chat.getId();
         this.sender = chat.getName();
         this.message = chat.getMessage();
-        this.receivedDate = LocalDate.now();
-        this.receivedTime = LocalTime.now().withSecond(0).withNano(0);
+        this.receivedAt = LocalDateTime.now();
     }
 }

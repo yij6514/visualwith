@@ -20,7 +20,7 @@ public class ChatResponse {
         this.roomId = chat.getRoomId();
         this.sender = chat.getSender();
         this.message = chat.getMessage();
-        this.receivedDate = chat.getReceivedDate();
-        this.receivedTime = chat.getReceivedTime();
+        this.receivedDate = chat.getReceivedAt().toLocalDate();
+        this.receivedTime = chat.getReceivedAt().toLocalTime();
     }
 }

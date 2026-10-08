@@ -16,6 +16,7 @@ import java.time.LocalTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="schedule")
 public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
