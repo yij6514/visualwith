@@ -24,17 +24,17 @@ public class ChatMessage {
     private Long id;
 
     @Column(nullable = false,name="chat_id")
-    private String roomId;
+    private int roomId;
     @Column(name="sender_id")
-    private String sender;
+    private int sender;
     @Column(name="content")
     private String message;
     @Column(name="created_at")
     private LocalDateTime receivedAt;
 
     public ChatMessage(ChatReceived chat) {
-        this.roomId = chat.getId();
-        this.sender = chat.getName();
+        this.roomId = Integer.parseInt(chat.getId());
+        this.sender = Integer.parseInt(chat.getName());
         this.message = chat.getMessage();
         this.receivedAt = LocalDateTime.now();
     }

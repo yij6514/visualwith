@@ -25,33 +25,49 @@ public class CalGetResponse {
         this.title = cal.getTitle();
         this.content = cal.getContent();
 
-        if(cal.getStartDate() == null) {
+        if(cal.getStartAt() == null) {
             this.startDate = "";
-        }
-        else {
-            this.startDate = cal.getStartDate().toString();
-        }
-        if(cal.getStartTime() == null) {
             this.startTime = "";
         }
         else {
-            this.startTime = cal.getStartTime().toString();
+            this.startDate = cal.getStartAt().toLocalDate().toString();
+            this.startTime = cal.getStartAt().toLocalTime().toString();
         }
+//        if(cal.getStartDate() == null) {
+//            this.startDate = "";
+//        }
+//        else {
+//            this.startDate = cal.getStartDate().toString();
+//        }
+//        if(cal.getStartTime() == null) {
+//            this.startTime = "";
+//        }
+//        else {
+//            this.startTime = cal.getStartTime().toString();
+//        }
 
 
         // complete
-        if(cal.getCompleteDate() == null) {
+        if(cal.getCompleteAt() == null) {
             this.completeDate = "";
-        }
-        else {
-            this.completeDate = cal.getCompleteDate().toString();
-        }
-        if(cal.getCompleteTime() == null) {
             this.completeTime = "";
         }
         else {
-            this.completeTime = cal.getCompleteTime().toString();
+            this.completeDate = cal.getCompleteAt().toLocalDate().toString();
+            this.completeTime = cal.getCompleteAt().toLocalTime().toString();
         }
+//        if(cal.getCompleteDate() == null) {
+//            this.completeDate = "";
+//        }
+//        else {
+//            this.completeDate = cal.getCompleteDate().toString();
+//        }
+//        if(cal.getCompleteTime() == null) {
+//            this.completeTime = "";
+//        }
+//        else {
+//            this.completeTime = cal.getCompleteTime().toString();
+//        }
 
         this.wholeDay = cal.getWholeDay();
     }
