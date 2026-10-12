@@ -38,6 +38,10 @@ public class UserController {
     @GetMapping("/{userId}/teamList")
     public ResponseEntity<?> getTeamList(@PathVariable String userId,
                                          Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         // TODO
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userTeamService.getTeamList(auth.getName()));
@@ -46,6 +50,10 @@ public class UserController {
     // 현재 사용자가 누군지 알기위한 api
     @GetMapping("/me")
     public ResponseEntity<?> getMe(Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+        
         try{
             return ResponseEntity.status(HttpStatus.OK)
                     .body(userService.getMe(auth.getName()));
