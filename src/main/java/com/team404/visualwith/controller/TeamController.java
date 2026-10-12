@@ -26,9 +26,14 @@ public class TeamController {
 
     // 팀 만들기
     @PostMapping("/createteam")
-    public ResponseEntity<TeamCreateResponse> createTeam(
+    public ResponseEntity<?> createTeam(
             @RequestBody TeamCreateRequest teamRequest,
-            @RequestHeader("X-USER-ID") String userId) {
+            @RequestHeader("X-USER-ID") String userId,
+            Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         TeamCreateResponse response = teamService.createTeam(teamRequest.getTeamName(), userId);
         return ResponseEntity.ok(response);
     }
@@ -38,6 +43,9 @@ public class TeamController {
     public ResponseEntity<?> deleteTeam(@RequestHeader("X-USER-ID") String userId,
                                         @PathVariable String teamId,
                                         Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
         try{
             teamService.deleteTeam(teamId, auth.getName());
             return ResponseEntity.ok(Map.of("message","팀 삭제 완료"));
@@ -51,7 +59,11 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}/memberlist")
-    public ResponseEntity<?> getTeamMemberList(@PathVariable String teamId) {
+    public ResponseEntity<?> getTeamMemberList(@PathVariable String teamId, Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         List<TeamtoUserGetResponse> memberList = userTeamService.getMemberList(teamId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(memberList);

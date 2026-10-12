@@ -28,6 +28,10 @@ public class InvitationController {
                                        @RequestBody AddTeamMemberRequest request,
                                        @RequestHeader("X-USER-ID") String adminUserId,
                                        Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try{
             userTeamService.addMember(teamId, auth.getName(), request.getUserId());
         } catch (IllegalArgumentException e) {
@@ -62,6 +66,10 @@ public class InvitationController {
                                                  @PathVariable String invitationCode,
                                                  @RequestBody AddTeamMemberRequest addTeamMemberRequest,
                                                  Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try{
             userTeamService.invitationUrlAccepted(teamId, invitationCode, auth.getName());
         }
@@ -79,6 +87,10 @@ public class InvitationController {
     public ResponseEntity<?> invitationAccept(@PathVariable String teamId,
                                               @PathVariable String userId,
                                               Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try {
             userTeamService.invitationAccepted(teamId, auth.getName());
         }
