@@ -53,7 +53,7 @@ public class UserController {
         if(auth == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
         }
-        
+
         try{
             return ResponseEntity.status(HttpStatus.OK)
                     .body(userService.getMe(auth.getName()));
