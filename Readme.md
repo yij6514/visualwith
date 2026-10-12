@@ -96,6 +96,21 @@
 
 ---
 
+## 2. 로그아웃
+
+
+- **URL**: `/api/logout`
+- **Method**: `POST`
+
+#### Response (200 OK)
+```json
+{
+  "message" : "로그아웃 성공"
+}
+```
+
+---
+
 ## 4. Get Me API
 
 **URL**: `/api/users/me`
