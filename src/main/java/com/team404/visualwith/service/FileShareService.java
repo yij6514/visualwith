@@ -12,21 +12,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class FileShareService {
     private final FileRepository fileRepository;
+    private final String basePath = System.getProperty("user.home");
 
     public void fileUpload(MultipartFile file, String teamId, String senderId) throws IOException{
-        String basePath = System.getProperty("user.home");
         Path teamPath = Paths.get(
                 basePath, "visualwith", "fileShare", "team_" + teamId
         );
         ShareFile shareFile = new ShareFile(file.getName(), teamPath.toString(), file.getContentType(), file.getSize(), senderId, LocalDateTime.now());
 
-        Files.createDirectory(teamPath);
+        Files.createDirectories(teamPath);
         teamPath = Paths.get(teamPath.toString(), file.getOriginalFilename());
         file.transferTo(teamPath);
 
@@ -34,7 +35,12 @@ public class FileShareService {
     }
 
     public List<ShareFile> fileList(String teamId) {
-        
-        return null;
+        Path teamPath = Paths.get(
+                basePath, "visualwith", "fileShare", "team_" + teamId
+        );
+        List<ShareFile> list = fileRepository.findByFilePath(teamPath.toString());
+
+
+        return list;
     }
 }

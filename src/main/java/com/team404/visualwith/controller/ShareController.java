@@ -1,6 +1,8 @@
 package com.team404.visualwith.controller;
 
 import com.team404.visualwith.dto.fileShare.FileShareRequest;
+import com.team404.visualwith.dto.fileShare.FileShareResponse;
+import com.team404.visualwith.entity.ShareFile;
 import com.team404.visualwith.service.FileShareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,8 +36,12 @@ public class ShareController {
     }
 
     @GetMapping("/{teamId}/list")
-    public String fileList(@PathVariable String teamId) {
-        fileShareService.
-        return null;
+    public List<FileShareResponse> fileList(@PathVariable String teamId) {
+        List<ShareFile> list =  fileShareService.fileList(teamId);
+        List<FileShareResponse> finalList = new ArrayList<>();
+        for(ShareFile file : list) {
+            finalList.add(new FileShareResponse(file));
+        }
+        return finalList;
     }
 }
