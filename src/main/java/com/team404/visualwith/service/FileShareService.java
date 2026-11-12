@@ -1,12 +1,17 @@
 package com.team404.visualwith.service;
 
+import com.team404.visualwith.dto.fileShare.FileDownloadResponse;
 import com.team404.visualwith.entity.ShareFile;
 import com.team404.visualwith.repository.FileRepository;
+import com.team404.visualwith.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +30,7 @@ public class FileShareService {
         Path teamPath = Paths.get(
                 basePath, "visualwith", "fileShare", "team_" + teamId
         );
-        ShareFile shareFile = new ShareFile(file.getName(), teamPath.toString(), file.getContentType(), file.getSize(), senderId, LocalDateTime.now());
+        ShareFile shareFile = new ShareFile(file.getOriginalFilename(), teamPath.toString(), file.getContentType(), file.getSize(), senderId, LocalDateTime.now());
 
         Files.createDirectories(teamPath);
         teamPath = Paths.get(teamPath.toString(), file.getOriginalFilename());
@@ -40,7 +45,21 @@ public class FileShareService {
         );
         List<ShareFile> list = fileRepository.findByFilePath(teamPath.toString());
 
-
         return list;
+    }
+
+    public FileDownloadResponse fileDownload(Long fileId, String userName) throws IOException{
+        ShareFile file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("파일을 찾을 수 없습니다."));
+
+        Path path = Paths.get(file.getFilePath(), file.getFileName());
+
+        if(!Files.exists(path)) {
+            throw new FileNotFoundException("파일이 존재하지 않습니다.");
+        }
+
+        Resource resource = new UrlResource(path.toUri());
+
+        return new FileDownloadResponse(resource, file.getFileName());
     }
 }
