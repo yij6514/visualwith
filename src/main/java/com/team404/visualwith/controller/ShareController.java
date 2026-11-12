@@ -44,4 +44,11 @@ public class ShareController {
         }
         return finalList;
     }
+
+    @GetMapping("/{fileId}")
+    public ResponseEntity<?> fileDownload(@PathVariable Long fileId, Authentication auth) {
+        fileShareService.fileDownload(fileId, auth.getName());
+
+        return null;
+    }
 }
