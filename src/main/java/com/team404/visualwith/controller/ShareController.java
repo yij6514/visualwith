@@ -62,4 +62,7 @@ public class ShareController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", e.getMessage()));
         }
     }
+
+    @PostMapping("/{fileId}")
+    public ResponseEntity<?> fileRename(@PathVariable Long fileId, @RequestBody )
 }
