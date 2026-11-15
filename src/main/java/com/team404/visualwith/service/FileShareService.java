@@ -34,7 +34,7 @@ public class FileShareService {
      * @param senderId
      * @throws IOException
      */
-    public void fileUpload(MultipartFile file, String teamId, String senderId) throws IOException{
+    public Long fileUpload(MultipartFile file, String teamId, String senderId) throws IOException{
         Path teamPath = Paths.get(
                 basePath, "visualwith", "fileShare", "team_" + teamId
         );
@@ -45,6 +45,8 @@ public class FileShareService {
         file.transferTo(teamPath);
 
         fileRepository.save(shareFile);
+
+        return shareFile.getFileId();
     }
 
     public List<ShareFile> fileList(String teamId) {

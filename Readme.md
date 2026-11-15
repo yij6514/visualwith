@@ -136,6 +136,12 @@
 #### [- 채팅 API 문서](Docs/Chat.md)
 
 ---
+
+## E. 파일공유
+
+#### [- 파일공유 API 문서](Docs/FileShare.md)
+
+---
 ## 공통 사항
 
 - 응답 데이터 형식은 `application/json`이다.

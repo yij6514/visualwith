@@ -29,16 +29,15 @@ public class ShareController {
     @PostMapping("/{teamId}")
     public ResponseEntity<?> fileUpload(@RequestParam MultipartFile file, @PathVariable String teamId, Authentication auth) {
         try{
-            fileShareService.fileUpload(file, teamId, auth.getName());
+            Long id = fileShareService.fileUpload(file, teamId, auth.getName());
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("id", id));
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("message", e.getMessage()));
         }
-
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/{teamId}/list")
+    @GetMapping("/list/{teamId}")
     public List<FileShareResponse> fileList(@PathVariable String teamId) {
         List<ShareFile> list =  fileShareService.fileList(teamId);
         List<FileShareResponse> finalList = new ArrayList<>();
@@ -66,7 +65,7 @@ public class ShareController {
         }
     }
 
-    @PostMapping("/rename/{fileId}")
+    @PutMapping("/rename/{fileId}")
     public ResponseEntity<?> fileRename(@PathVariable Long fileId, @RequestBody FileRenameRequest request) {
         try{
             fileShareService.fileRename(fileId, request.getNewFileName());
