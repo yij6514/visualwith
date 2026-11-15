@@ -4,6 +4,7 @@ import com.team404.visualwith.dto.fileShare.FileDownloadResponse;
 import com.team404.visualwith.entity.ShareFile;
 import com.team404.visualwith.repository.FileRepository;
 import com.team404.visualwith.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -26,6 +27,13 @@ public class FileShareService {
     private final FileRepository fileRepository;
     private final String basePath = System.getProperty("user.home");
 
+    /**
+     *
+     * @param file
+     * @param teamId
+     * @param senderId
+     * @throws IOException
+     */
     public void fileUpload(MultipartFile file, String teamId, String senderId) throws IOException{
         Path teamPath = Paths.get(
                 basePath, "visualwith", "fileShare", "team_" + teamId
@@ -61,5 +69,25 @@ public class FileShareService {
         Resource resource = new UrlResource(path.toUri());
 
         return new FileDownloadResponse(resource, file.getFileName());
+    }
+
+    @Transactional
+    public void fileRename(Long fileId, String newName) throws IOException {
+        ShareFile file = fileRepository.findById(fileId)
+                .orElseThrow(() -> new IOException("파일을 찾을 수 없습니다"));
+
+        Path oldPath = Paths.get(file.getFilePath(), file.getFileName());
+        Path newPath = oldPath.resolveSibling(newName);
+
+        Files.move(oldPath, newPath);
+
+        file.setFileName(newName);
+    }
+
+    public void fileDelete(Long fileId) throws IOException {
+        ShareFile file = fileRepository.findById(fileId).orElseThrow(() -> new IOException("파일을 찾을 수 없습니다."));
+        Path path = Paths.get(file.getFilePath(), file.getFileName());
+        Files.delete(path);
+        fileRepository.deleteById(fileId);
     }
 }

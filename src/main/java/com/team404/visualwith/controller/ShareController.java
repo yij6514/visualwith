@@ -1,6 +1,7 @@
 package com.team404.visualwith.controller;
 
 import com.team404.visualwith.dto.fileShare.FileDownloadResponse;
+import com.team404.visualwith.dto.fileShare.FileRenameRequest;
 import com.team404.visualwith.dto.fileShare.FileShareRequest;
 import com.team404.visualwith.dto.fileShare.FileShareResponse;
 import com.team404.visualwith.entity.ShareFile;
@@ -30,7 +31,8 @@ public class ShareController {
         try{
             fileShareService.fileUpload(file, teamId, auth.getName());
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
         }
 
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -59,10 +61,32 @@ public class ShareController {
                     .body(response.getResource());
         }
         catch(IOException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
         }
     }
 
-    @PostMapping("/{fileId}")
-    public ResponseEntity<?> fileRename(@PathVariable Long fileId, @RequestBody )
+    @PostMapping("/rename/{fileId}")
+    public ResponseEntity<?> fileRename(@PathVariable Long fileId, @RequestBody FileRenameRequest request) {
+        try{
+            fileShareService.fileRename(fileId, request.getNewFileName());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{fileId}")
+    public ResponseEntity<?> fileDelete(@PathVariable Long fileId) {
+        try {
+            fileShareService.fileDelete(fileId);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }
+
+        return ResponseEntity.ok().build();
+    }
 }
