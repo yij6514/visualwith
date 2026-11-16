@@ -57,8 +57,8 @@ public class TodoService {
     public void completeTodo(TodoCompleteRequest todoCompleteRequest, String userId) {
         Todo todo = todoRepository.findById(todoCompleteRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Todo 없음"));
-        if(!(userId.equals(todo.getCreatorId()))
-                || todoCompleteRequest.getUserTeamRole() != UserTeamRole.MEMBER) {
+        if(!(userId.equals(todo.getCreatorId())
+                || todoCompleteRequest.getUserTeamRole() != UserTeamRole.MEMBER)) {
             throw new RuntimeException("권한이 없습니다.");
         }
         todo.complete(todoCompleteRequest);
