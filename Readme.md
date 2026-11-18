@@ -96,7 +96,22 @@
 
 ---
 
-## 3. Get Me API
+## 3. 로그아웃
+
+
+- **URL**: `/api/logout`
+- **Method**: `POST`
+
+#### Response (200 OK)
+```json
+{
+  "message" : "로그아웃 성공"
+}
+```
+
+---
+
+## 4. Get Me API
 
 **URL**: `/api/users/me`
 - **Method**: `GET`
@@ -145,3 +160,9 @@
 ## 공통 사항
 
 - 응답 데이터 형식은 `application/json`이다.
+
+---
+## 해야할 일
+
+- 초대 수락할때 이미 수락이 완료된 상태면 완료 되었다고 메세지 보내기
+- 회원가입 로그인때 name -> userName으로 응답하기

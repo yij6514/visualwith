@@ -23,17 +23,29 @@ public class CalController {
     }
 
     @GetMapping("/{teamId}")
-    public List<CalGetResponse> getCalList(@PathVariable String teamId) {
-        return calService.getCal(teamId);
+    public ResponseEntity<?> getCalList(@PathVariable String teamId, Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
+        return ResponseEntity.ok(calService.getCal(teamId));
     }
 
     @PostMapping
     public ResponseEntity<?> postCal(@RequestBody CalAddRequest calAddRequest, Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         return ResponseEntity.ok(calService.createCal(calAddRequest, auth.getName()));
     }
 
     @PutMapping
     public ResponseEntity<?> updateCal(@RequestBody CalUpdateRequest calUpdateRequest, Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try{
             calService.updateCal(calUpdateRequest, auth.getName());
         }
@@ -47,6 +59,10 @@ public class CalController {
 
     @DeleteMapping
     public ResponseEntity<?> deleteCal(@RequestBody CalDeleteRequest calDeleteRequest, Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try {
             calService.deleteCal(calDeleteRequest, auth.getName());
         }

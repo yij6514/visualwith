@@ -22,14 +22,22 @@ public class TodoController {
 
     // 할 일 조회
     @GetMapping("/{teamId}")
-    public List<TodoGetResponse> getTodoList(@PathVariable String teamId) {
-        return todoService.getTodo(teamId);
+    public ResponseEntity<?> getTodoList(@PathVariable String teamId, Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
+        return ResponseEntity.ok(todoService.getTodo(teamId));
     }
 
     // 할 일 생성
     @PostMapping
     public ResponseEntity<?> postTodo(@RequestBody TodoAddRequest todoAddRequest,
                                       Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         TodoAddResponse result =  todoService.createTodo(todoAddRequest, auth.getName());
         return ResponseEntity.ok(result);
     }
@@ -38,6 +46,10 @@ public class TodoController {
     @PutMapping("/update")
     public ResponseEntity<?> updateTodo(@RequestBody TodoUpdateRequest todoUpdateRequest,
                                         Authentication auth){
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try {
             todoService.updateTodo(todoUpdateRequest, auth.getName());
         }
@@ -52,6 +64,10 @@ public class TodoController {
     @PutMapping("/complete")
     public ResponseEntity<?> completeTodo(@RequestBody TodoCompleteRequest todoCompleteRequest,
                                           Authentication auth){
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try{
             todoService.completeTodo(todoCompleteRequest, auth.getName());
         }
@@ -64,7 +80,11 @@ public class TodoController {
 
     //delete
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteTodo(@RequestBody TodoDeleteRequest todoDeleteRequest) {
+    public ResponseEntity<?> deleteTodo(@RequestBody TodoDeleteRequest todoDeleteRequest, Authentication auth) {
+        if(auth == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+        }
+
         try{
             todoService.deleteTodo(todoDeleteRequest);
         }
