@@ -26,7 +26,7 @@ public class ChatController {
     private final ChatService chatService;
 
     // 채팅 리스트 반환
-    @GetMapping("/chat/{teamId}")
+    @GetMapping("/api/chat/{teamId}")
     public ResponseEntity<?> getChatMessages(@PathVariable String teamId){
         //임시로 리스트 형식으로 구현, 실제론 DB 접근 필요
         List<ChatResponse> list = chatService.chatLoad(teamId);
