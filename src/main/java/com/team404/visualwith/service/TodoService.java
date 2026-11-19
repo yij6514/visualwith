@@ -46,8 +46,8 @@ public class TodoService {
     public void updateTodo(TodoUpdateRequest todoUpdateRequest, String userId) {
         Todo todo = todoRepository.findById(todoUpdateRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Todo 없음"));
-        if(!(userId.equals(todo.getCreatorId()))
-                || todoUpdateRequest.getUserTeamRole() != UserTeamRole.MEMBER) {
+        if(!(userId.equals(todo.getCreatorId())
+                || todoUpdateRequest.getUserTeamRole() != UserTeamRole.MEMBER)) {
             throw new RuntimeException("권한이 없습니다.");
         }
         todo.update(todoUpdateRequest);
