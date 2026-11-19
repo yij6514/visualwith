@@ -47,6 +47,9 @@ public class UserTeamService {
                 .orElseThrow(() -> new IllegalArgumentException("팀이 존재하지 않습니다."));
         User targetUser = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("대상 사용자가 없습니다."));
+        if(!targetTeam.getTeamUrl().equals(invitationCode) ) {
+            throw new IllegalArgumentException("잘못된 url입니다.");
+        }
 
         UserTeam targetUserTeam = new UserTeam(new UserTeamId(userId, teamId), UserTeamRole.MEMBER, InvitationStatus.ACCEPTED);
         userTeamRepository.save(targetUserTeam);
