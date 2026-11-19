@@ -44,23 +44,23 @@ insert into calendar (id, title, content, created_date, created_time, whole_day,
 values (9996, 'test Title3', '휴일', '26-06-10', '12:00', true, 'testteam', 'testuser');
 
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99991, 'amuteam1', 'testuser', 'test chatting', '26-06-19', '00:01');
+values(99991, 'amuteam1', 'testuser', 'test chatting', '2026-06-19', '00:01');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99992, 'amuteam1', 'testuser', '뭐함', '26-06-19', '00:02');
+values(99992, 'amuteam1', 'testuser', '뭐함', '2026-06-19', '00:02');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99993, 'amuteam1', 'amu', '집임', '26-06-19', '00:02');
+values(99993, 'amuteam1', 'amu', '집임', '2026-06-19', '00:02');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99994, 'amuteam1', 'amu', '과제 했음?', '26-06-19', '00:03');
+values(99994, 'amuteam1', 'amu', '과제 했음?', '2026-06-19', '00:03');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99995, 'amuteam1', 'testuser', 'ㄴㄴ', '26-06-19', '00:05');
+values(99995, 'amuteam1', 'testuser', 'ㄴㄴ', '2026-06-19', '00:05');
 
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99996, 'testteam', 'testuser', '혼잣말', '26-06-15', '00:01');
+values(99996, 'testteam', 'testuser', '혼잣말', '2026-06-15', '00:01');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99997, 'testteam', 'testuser', '혼잣말1', '26-06-15', '00:05');
+values(99997, 'testteam', 'testuser', '혼잣말1', '2026-06-15', '00:05');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99998, 'testteam', 'testuser', '같이 할 사람', '26-06-15', '00:10');
+values(99998, 'testteam', 'testuser', '같이 할 사람', '2026-06-15', '00:10');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(99999, 'testteam', 'testuser', '일 없는 사람', '26-06-15', '08:01');
+values(99999, 'testteam', 'testuser', '일 없는 사람', '2026-06-15', '08:01');
 insert into chat_message (id, room_id, sender, message, received_date, received_time)
-values(100000, 'testteam', 'testuser', '중괄호', '26-06-15', '09:23');
+values(100000, 'testteam', 'testuser', '중괄호', '2026-06-15', '09:23');
