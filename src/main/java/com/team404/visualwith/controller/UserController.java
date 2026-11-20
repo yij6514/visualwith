@@ -51,7 +51,7 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<?> getMe(Authentication auth) {
         if(auth == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 만료되었습니다"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "인증 토큰이 없습니다. 로그인해주세요"));
         }
 
         try{

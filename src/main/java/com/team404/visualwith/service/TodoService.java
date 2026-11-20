@@ -2,8 +2,12 @@ package com.team404.visualwith.service;
 
 import com.team404.visualwith.dto.todo.*;
 import com.team404.visualwith.entity.Todo;
+import com.team404.visualwith.entity.UserTeamId;
 import com.team404.visualwith.entity.UserTeamRole;
+import com.team404.visualwith.repository.TeamRepository;
 import com.team404.visualwith.repository.TodoRepository;
+import com.team404.visualwith.repository.UserTeamRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,15 +17,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TodoService {
     private final TodoRepository todoRepository;
-
-    public TodoService(TodoRepository todoRepository) {
-        this.todoRepository = todoRepository;
-    }
+    private final UserTeamRepository userTeamRepository;
 
     // 할 일 생성
     public TodoAddResponse createTodo(TodoAddRequest todoAddRequest, String userId) {
+        if(!userTeamRepository.existsById(new UserTeamId(userId, todoAddRequest.getTeamId()))) {
+            throw new IllegalArgumentException("팀에 속해있지 않습니다.");
+        }
         Todo todo = new Todo(todoAddRequest, userId);
         todoRepository.save(todo);
         return new TodoAddResponse(todo.getId());
@@ -41,8 +46,8 @@ public class TodoService {
     public void updateTodo(TodoUpdateRequest todoUpdateRequest, String userId) {
         Todo todo = todoRepository.findById(todoUpdateRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Todo 없음"));
-        if(!(userId.equals(todo.getCreatorId()))
-                || todoUpdateRequest.getUserTeamRole() != UserTeamRole.MEMBER) {
+        if(!(userId.equals(todo.getCreatorId())
+                || todoUpdateRequest.getUserTeamRole() != UserTeamRole.MEMBER)) {
             throw new RuntimeException("권한이 없습니다.");
         }
         todo.update(todoUpdateRequest);
@@ -52,8 +57,8 @@ public class TodoService {
     public void completeTodo(TodoCompleteRequest todoCompleteRequest, String userId) {
         Todo todo = todoRepository.findById(todoCompleteRequest.getId())
                 .orElseThrow(() -> new RuntimeException("Todo 없음"));
-        if(!(userId.equals(todo.getCreatorId()))
-                || todoCompleteRequest.getUserTeamRole() != UserTeamRole.MEMBER) {
+        if(!(userId.equals(todo.getCreatorId())
+                || todoCompleteRequest.getUserTeamRole() != UserTeamRole.MEMBER)) {
             throw new RuntimeException("권한이 없습니다.");
         }
         todo.complete(todoCompleteRequest);

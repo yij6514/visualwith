@@ -1,0 +1,91 @@
+package com.team404.visualwith.controller;
+
+import com.team404.visualwith.dto.fileShare.FileDownloadResponse;
+import com.team404.visualwith.dto.fileShare.FileRenameRequest;
+import com.team404.visualwith.dto.fileShare.FileShareRequest;
+import com.team404.visualwith.dto.fileShare.FileShareResponse;
+import com.team404.visualwith.entity.ShareFile;
+import com.team404.visualwith.service.FileShareService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/share")
+@RequiredArgsConstructor
+public class ShareController {
+    private final FileShareService fileShareService;
+
+    @PostMapping("/{teamId}")
+    public ResponseEntity<?> fileUpload(@RequestParam MultipartFile file, @PathVariable String teamId, Authentication auth) {
+        try{
+            Long id = fileShareService.fileUpload(file, teamId, auth.getName());
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("id", id));
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/list/{teamId}")
+    public List<FileShareResponse> fileList(@PathVariable String teamId) {
+        List<ShareFile> list =  fileShareService.fileList(teamId);
+        List<FileShareResponse> finalList = new ArrayList<>();
+        for(ShareFile file : list) {
+            finalList.add(new FileShareResponse(file));
+        }
+        return finalList;
+    }
+
+    @GetMapping("/{fileId}")
+    public ResponseEntity<?> fileDownload(@PathVariable Long fileId, Authentication auth) {
+        try{
+            FileDownloadResponse response = fileShareService.fileDownload(fileId, auth.getName());
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            ContentDisposition.attachment()
+                                    .filename(response.getFileName(), StandardCharsets.UTF_8)
+                                    .build()
+                                    .toString())
+                    .body(response.getResource());
+        }
+        catch(IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/rename/{fileId}")
+    public ResponseEntity<?> fileRename(@PathVariable Long fileId, @RequestBody FileRenameRequest request) {
+        try{
+            fileShareService.fileRename(fileId, request.getNewFileName());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{fileId}")
+    public ResponseEntity<?> fileDelete(@PathVariable Long fileId) {
+        try {
+            fileShareService.fileDelete(fileId);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }
+
+        return ResponseEntity.ok().build();
+    }
+}
